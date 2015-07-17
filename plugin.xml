@@ -50,8 +50,11 @@
         <header-file src="ios/PDFView/PDFVPage.h" />
         <source-file src="ios/PDFView/PDFVThread.m" />
         <header-file src="ios/PDFView/PDFVThread.h" />
-        <source-file src="ios/PDFView/PDFVThumb.m" />
-        <header-file src="ios/PDFView/PDFVThumb.h" />
+        <source-file src="ios/PDFView/RDPDFViewController.m" />
+        <header-file src="ios/PDFView/RDPDFViewController.h" />
+        <source-file src="ios/PDFView/RadaePdfViewController.m" />
+        <header-file src="ios/PDFView/RadaePdfViewController.h" />
+        <resource-file src="ios/PDFView/RadaePdfViewController.xib" />
         
         <source-file src="ios/PDFLib/PDFObjc.m" />
         <header-file src="ios/PDFLib/PDFObjc.h" />

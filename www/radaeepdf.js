@@ -1,4 +1,4 @@
-//
+cordova.define("it.almaviva.cordovaplugins.radaeepdf.radaeePdf", function(require, exports, module) { //
 //  AlmaZBarReaderViewController.h
 //  Paolo Messina
 //
@@ -15,15 +15,17 @@ radaeePdf.prototype = {
 
     open: function (params, success, failure)
     {
-        argscheck.checkArgs('*fF', 'InAppPdf.show', arguments);
+        argscheck.checkArgs('*fF', 'RadaeePDF.show', arguments);
 
         params = params || {};
         if(params.text_title === undefined) params.text_title = "";
         if(params.showClose === undefined) params.showClose = false;
         if(params.barColor == undefined) params.barColor = "#FFFFFF";
 
-        exec(success, failure, 'InAppPdf', 'show', [params]);
+        exec(success, failure, 'RadaeePDF', 'show', [params]);
     }
 };
 
 module.exports = new radaeePdf();
+
+});
