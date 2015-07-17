@@ -29,7 +29,7 @@
         <framework src="QuartzCore.framework" />
         <framework src="libc++.dylib" />
         
-        <source-file src="ios/NSObject/NSObject+PerformBlock.m" target="NSObject/NSObject+PerformBlock.m" />
+        <source-file src="ios/NSObject/NSObject+PerformBlock.m" />
         <header-file src="ios/NSObject/NSObject+PerformBlock.h" />
         
         <source-file src="ios/PDFView/PDFReflowView.m" />
