@@ -58,6 +58,7 @@
         <source-file src="ios/PDFView/RadaePdfViewController.m" />
         <header-file src="ios/PDFView/RadaePdfViewController.h" />
         <resource-file src="ios/PDFView/RadaePdfViewController.xib" />
+        <resource-file src="ios/PDFView/RDPDFViewController.xib" />
         
         <source-file src="ios/PDFLib/PDFObjc.m" />
         <header-file src="ios/PDFLib/PDFObjc.h" />
