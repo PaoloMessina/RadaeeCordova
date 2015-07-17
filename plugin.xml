@@ -33,6 +33,7 @@
         <header-file src="ios/NSObject/NSObject+PerformBlock.h" />
         
         <source-file src="ios/PDFView/PDFReflowView.m" />
+        <header-file src="ios/PDFView/PDFReflowView.h" />
         <source-file src="ios/PDFView/PDFThumbView.m" />
         <header-file src="ios/PDFView/PDFThumbView.h" />
         <source-file src="ios/PDFView/PDFV.m" />
