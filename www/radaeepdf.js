@@ -1,4 +1,4 @@
-cordova.define("it.almaviva.cordovaplugins.radaeepdf.radaeePdf", function(require, exports, module) { //
+cordova.define("it.almaviva.cordovaplugins.radaeepdf", function(require, exports, module) { //
 //  AlmaZBarReaderViewController.h
 //  Paolo Messina
 //
