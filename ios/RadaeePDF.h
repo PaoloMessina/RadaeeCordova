@@ -1,5 +1,7 @@
 #import <Cordova/CDV.h>
 
+@class RDPDFViewController;
+
 @interface RadaeePDF : CDVPlugin{
     CDVInvokedUrlCommand* command;
     RDPDFViewController *m_pdf;
