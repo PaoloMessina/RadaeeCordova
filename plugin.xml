@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="it.almaviva.cordovaplugins.radaeepdf" version="1.0.0">
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <name>RadaeeCordova</name>
+    <author>Paolo messina</author>
+    <description>RadaeePDF cordova plugin, read pdf with native library!</description>
+    <license>Apache LGPL</license>
+    <keywords>pdf, open, inapppdf, radaee</keywords>
+
+    <js-module src="www/radaeepdf.js" name="radaeePdf">
+        <clobbers target="radaeePdf" />
+    </js-module>
+    
+    <!-- android -->
+
+	<!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="RadaeePDF">
+                <param name="ios-package" value="RadaeePDF"/>
+            </feature>
+        </config-file>
+        <framework src="CoreMedia.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="libc++.dylib" />
+        
+        <source-file src="ios/NSObject/NSObject+PerformBlock.m" />
+        <header-file src="ios/NSObject/NSObject+PerformBlock.h" />
+        
+        <source-file src="ios/PDFView/PDFReflowView.m" />
+        <source-file src="ios/PDFView/PDFThumbView.m" />
+        <header-file src="ios/PDFView/PDFThumbView.h" />
+        <source-file src="ios/PDFView/PDFV.m" />
+        <header-file src="ios/PDFView/PDFV.h" />
+        <source-file src="ios/PDFView/PDFVCanvas.m" />
+        <header-file src="ios/PDFView/PDFVCanvas.h" />
+        <source-file src="ios/PDFView/PDFVFinder.m" />
+        <header-file src="ios/PDFView/PDFVFinder.h" />
+        <source-file src="ios/PDFView/PDFVGlobal.m" />
+        <header-file src="ios/PDFView/PDFVGlobal.h" />
+        <source-file src="ios/PDFView/PDFView.m" />
+        <header-file src="ios/PDFView/PDFView.h" />
+        <source-file src="ios/PDFView/PDFVPage.m" />
+        <header-file src="ios/PDFView/PDFVPage.h" />
+        <source-file src="ios/PDFView/PDFVThread.m" />
+        <header-file src="ios/PDFView/PDFVThread.h" />
+        <source-file src="ios/PDFView/PDFVThumb.m" />
+        <header-file src="ios/PDFView/PDFVThumb.h" />
+        
+        <source-file src="ios/PDFLib/PDFObjc.m" />
+        <header-file src="ios/PDFLib/PDFObjc.h" />
+        <header-file src="ios/PDFLib/PDFIOS.h" />
+        <source-file src="ios/PDFLib/libRDPDFLib.a" framework="true" />
+        
+        <resource-file src="ios/cmaps/cmaps.dat" />
+        <resource-file src="ios/cmaps/umaps.dat" />
+        
+        <resource-file src="ios/fdat/00" />
+        <resource-file src="ios/fdat/01" />
+        <resource-file src="ios/fdat/02" />
+        <resource-file src="ios/fdat/03" />
+        <resource-file src="ios/fdat/04" />
+        <resource-file src="ios/fdat/05" />
+        <resource-file src="ios/fdat/06" />
+        <resource-file src="ios/fdat/07" />
+        <resource-file src="ios/fdat/08" />
+        <resource-file src="ios/fdat/09" />
+        <resource-file src="ios/fdat/10" />
+        <resource-file src="ios/fdat/11" />
+        <resource-file src="ios/fdat/12" />
+        <resource-file src="ios/fdat/13" />
+        <resource-file src="ios/fdat/argbsn00lp.ttf" />
+        <resource-file src="ios/fdat/PianoTerapeutico2.pdf" />
+        
+    </platform>
+
+</plugin>
