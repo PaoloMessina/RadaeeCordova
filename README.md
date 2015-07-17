@@ -4,7 +4,7 @@ This plugin use the RadaeePDF native library for open PDF files, the plugin wrap
 
 ## Installation
 
-    cordova plugins install org.cloudsky.cordovaplugins.zbar
+    cordova plugins install it.almaviva.cordovaplugins.radaeepdf
 
 ## License
 
