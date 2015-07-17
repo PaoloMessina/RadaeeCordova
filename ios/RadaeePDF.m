@@ -40,7 +40,7 @@
     
     NSFileManager *fm = [NSFileManager defaultManager];
     //Open PDF from Mem demo
-    char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf" inDirectory:@"fdat"] UTF8String];
+    char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
     FILE *file1 = fopen(path1, "rb");
     fseek(file1, 0, SEEK_END);
     int filesize1 = ftell(file1);
