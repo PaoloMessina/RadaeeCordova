@@ -5,7 +5,7 @@ This plugin use the RadaeePDF native library for open PDF files, the plugin wrap
 ## Installation
 
     cordova plugins install it.almaviva.cordovaplugins.radaeepdf
-
+    
 ## License
 
 This plugin is released under the Apache 2.0 license
@@ -14,6 +14,13 @@ This plugin is released under the Apache 2.0 license
 http://www.radaeepdf.com/ecommerce/technical-specification
 
 ## API
+
+### Scan barcode
+
+	radaeePdf.open(params, success, error);
+	
+### Arguments:
+
 
 Status:
 
