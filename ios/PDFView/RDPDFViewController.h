@@ -1,30 +1,33 @@
 //
 //  RDPDFViewController.h
-//  RadaeePdfDemo
+//  PDFViewer
 //
-//  Created by Paolo Messina on 17/07/15.
+//  Created by Radaee on 12-10-29.
+//  Copyright (c) 2012年 Radaee. All rights reserved.
 //
-//
-
-#import <Foundation/Foundation.h>
-#define SYS_VERSION [[[UIDevice currentDevice]systemVersion] floatValue]
 
 #import <UIKit/UIKit.h>
-#import "PDFIOS.h"
 #import "PDFView.h"
-#import <CoreData/CoreData.h> 
+#import "PDFIOS.h"
+#import <CoreData/CoreData.h>
 
-@class PDFV;
 @class PDFView;
+@class PDFV;
 
-@interface RDPDFViewController : UIViewController {
+@interface RDPDFViewController : UIViewController
+{
     PDFView *m_view;
     PDFDoc *m_doc;
-    bool m_bSel;
 }
-
+@property (strong, nonatomic) UIWindow *window;
 @property (assign, nonatomic)int pagecount;
 
+-(int)PDFOpen:(NSString *)path :(NSString *)pwd;
 -(int)PDFopenMem : (void *)data : (int)data_size :(NSString *)pwd;
+-(int)PDFOpenStream :(id<PDFStream>)stream :(NSString *)password;
+
+-(void)PDFClose;
+
+-(BOOL)isPortrait;
 
 @end

@@ -13,7 +13,7 @@
 #pragma mark - Synthesize
 
 @implementation RadaeePDF
-@synthesize command;
+@synthesize cdv_command;
 
 
 #pragma mark - Cordova Plugin
@@ -27,18 +27,16 @@
 
 - (void)show: (CDVInvokedUrlCommand*)command;
 {
-	self.command = command;
+	self.cdv_command = command;
     
     // Get user parameters
-    NSDictionary *params = (NSDictionary*) [command argumentAtIndex:0];
+    NSDictionary *params = (NSDictionary*) [cdv_command argumentAtIndex:0];
 
 	if( m_pdf == nil )
     {
         m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController" bundle:nil];
     }
     
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
     //Open PDF from Mem demo
     char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
     FILE *file1 = fopen(path1, "rb");
@@ -57,9 +55,8 @@
     [self.viewController presentViewController:m_pdf animated:YES completion:nil];
     
     //use PDFopenMem ,here need release memory
-    free(buffer);
-    
-    
+    //free(buffer);
+
 }
 
 @end

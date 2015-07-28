@@ -3,12 +3,12 @@
 @class RDPDFViewController;
 
 @interface RadaeePDF : CDVPlugin{
-    CDVInvokedUrlCommand* command;
+    CDVInvokedUrlCommand* cdv_command;
     RDPDFViewController *m_pdf;
     void *buffer;
 }
 
-@property (nonatomic, retain) CDVInvokedUrlCommand *command;
+@property (nonatomic, retain) CDVInvokedUrlCommand *cdv_command;
 
 - (void)show: (CDVInvokedUrlCommand*)command;
 
