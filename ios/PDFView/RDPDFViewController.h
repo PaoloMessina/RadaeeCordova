@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PDFView.h"
 #import "PDFIOS.h"
-#import <CoreData/CoreData.h>
 
 @class PDFView;
 @class PDFV;
@@ -18,9 +17,19 @@
 {
     PDFView *m_view;
     PDFDoc *m_doc;
+    NSString *url;
+    void *buffer;
 }
-@property (strong, nonatomic) UIWindow *window;
-@property (assign, nonatomic)int pagecount;
+
+@property (nonatomic, weak) IBOutlet UIView *container;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UIButton *closeButton;
+@property (nonatomic, weak) IBOutlet UIButton *backButton;
+@property (nonatomic, weak) IBOutlet UIView *barView;
+
+@property (nonatomic, retain) NSDictionary *data;
+
+-(IBAction) close:(id)sender;
 
 -(int)PDFOpen:(NSString *)path :(NSString *)pwd;
 -(int)PDFopenMem : (void *)data : (int)data_size :(NSString *)pwd;

@@ -36,27 +36,26 @@
     {
         m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController" bundle:nil];
     }
+    [m_pdf setData:params];
     
     //Open PDF from Mem demo
-    char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
+    /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
     FILE *file1 = fopen(path1, "rb");
     fseek(file1, 0, SEEK_END);
     int filesize1 = ftell(file1);
     fseek(file1, 0, SEEK_SET);
     
-    
     buffer = malloc((filesize1)*sizeof(char));
     fread(buffer, filesize1, 1, file1);
     fclose(file1);
     
-    [m_pdf PDFopenMem: buffer :filesize1 :nil]; 
+    [m_pdf PDFopenMem: buffer :filesize1 :nil]; */
 
     m_pdf.hidesBottomBarWhenPushed = YES;
     [self.viewController presentViewController:m_pdf animated:YES completion:nil];
     
     //use PDFopenMem ,here need release memory
     //free(buffer);
-
 }
 
 @end
