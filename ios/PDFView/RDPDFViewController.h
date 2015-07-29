@@ -18,6 +18,7 @@
     PDFView *m_view;
     PDFDoc *m_doc;
     NSString *url;
+    NSMutableData *receivedData;
     void *buffer;
 }
 

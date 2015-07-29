@@ -1,164 +1,335 @@
 //
-//  RadaePdfViewController.m
-//  RadaeePdfDemo
+//  RDPDFViewController.m
+//  PDFViewer
 //
-//  Created by Paolo Messina on 17/07/15.
-//
+//  Created by Radaee on 12-10-29.
+//  Copyright (c) 2012年 Radaee. All rights reserved.
 //
 
-#import "RadaePdfViewController.h"
 #import "RDPDFViewController.h"
 
-@interface RadaePdfViewController ()
+#define SYS_VERSION [[[UIDevice currentDevice]systemVersion] floatValue]
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+@interface RDPDFViewController ()
+
 
 @end
 
-@implementation RadaePdfViewController
+@implementation RDPDFViewController
+extern NSUserDefaults *userDefaults;
+bool b_outline;
 
-NSUserDefaults *userDefaults;
-bool g_CaseSensitive = false;
-bool g_MatchWholeWord = false;
-bool g_ScreenAwake = false;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        
+    }
+    return self;
+}
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadSettingsWithDefaults
-{
-    userDefaults = [NSUserDefaults standardUserDefaults];
-    g_CaseSensitive = [userDefaults boolForKey:@"CaseSensitive"];
-    g_MatchWholeWord = [userDefaults boolForKey:@"MatchWholeWord"];
-    g_ScreenAwake = [userDefaults boolForKey:@"KeepScreenAwake"];
-    [[UIApplication sharedApplication] setIdleTimerDisabled:g_ScreenAwake];
-    g_MatchWholeWord = [userDefaults floatForKey:@"MatchWholeWord"];
+    bool showClose = [[self.data objectForKey:@"showClose"] boolValue];
+    NSString *title = [self.data objectForKey:@"title"];
+    url = [self.data objectForKey:@"url"];
     
-    g_CaseSensitive = [userDefaults floatForKey:@"CaseSensitive"];
-
-    g_def_view = [userDefaults integerForKey:@"ViewMode"];
-    g_ink_color = [userDefaults integerForKey:@"InkColor"];
-    if(g_ink_color ==0)
-    {
-        g_ink_color =0xFF0000FF;
-    }
-    g_Ink_Width = 2.0f;
-    g_rect_color = [userDefaults integerForKey:@"RectColor"];
-    if(g_rect_color==0)
-    {
-        g_rect_color =0xFF0000FF;
-    }
-    annotUnderlineColor = [userDefaults integerForKey:@"UnderlineColor"];
-    if (annotUnderlineColor == 0) {
-        annotUnderlineColor = 0xFF0000FF;
-    }
-    annotStrikeoutColor = [userDefaults integerForKey:@"StrikeoutColor"];
-    if (annotStrikeoutColor == 0) {
-        annotStrikeoutColor = 0xFFFF0000;
-    }
-    annotHighlightColor = [userDefaults integerForKey:@"HighlightColor"];
-    if(annotHighlightColor ==0)
-    {
-        annotHighlightColor =0xFFFFFF00;
-    }
-    g_oval_color =[userDefaults integerForKey:@"OvalColor"]; if(g_oval_color ==0)
-    {
-        g_oval_color =0xFFFFFF00;
-    }
-}
-
-/*- (void)openPDF:(id)sender
-{
-    [self loadSettingsWithDefaults];
-    RDPDFViewController *m_pdf;
-    if( m_pdf == nil )
-    {
-        m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController"bundle:nil];
-    }
-    //pdfName = @"PianoTerapeutico2.pdf";
-    int result = [m_pdf PDFOpen:[[NSBundle mainBundle] pathForResource:@"PianoTerapeutico2"ofType:@"pdf"] withPassword:@""];
-    if(result == 1)
-    {
-        m_pdf.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:m_pdf animated:YES];
-    }
-}*/
-
-- (void)openPDF:(id)sender
-{
-    if( m_pdf == nil )
-    {
-        m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController" bundle:nil];
+    b_outline = false;
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    PDFDoc *doc_dst = [[PDFDoc alloc] init];
-    PDFDoc *doc_src = [[PDFDoc alloc] init];
-    
-    PDFImportCtx *ctx = [doc_dst newImportCtx:doc_src];
-    int dstno = [doc_dst pageCount];
-    int srccount= [doc_src pageCount];
-    int srcno = 0;
-    while (srcno <srccount) {
-        [ctx import :srcno :dstno];
-        dstno++;
-        srcno++;
+    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
+    // you can do so here.
+    // Lower screen 20px on ios 7
+    if (SYS_VERSION>=7.0) {
+        CGRect viewBounds = [self.container bounds];
+        viewBounds.origin.y = 20;
+        viewBounds.size.height = viewBounds.size.height - 20;
+        self.container.frame = viewBounds;
     }
-    [ctx importEnd];
-    [doc_dst save];
+    NSString *barColor = [self.data objectForKey:@"barColor"];
+    if([barColor containsString:@"#"])barColor = [barColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    unsigned int baseValue;
+    [[NSScanner scannerWithString:barColor] scanHexInt:&baseValue];
+    self.view.backgroundColor = UIColorFromRGB(baseValue);
+    self.barView.backgroundColor = UIColorFromRGB(baseValue);
+    self.backButton.hidden = showClose;
+    self.closeButton.hidden = !showClose;
+    self.titleLabel.text = title;
+    
+    /*NSString* pdfData = [self.data objectForKey:@"pdfData"];
+    int len = (int)[pdfData length];
+    Byte* byteArr = (Byte*)malloc(len);
+    byteArr = [pdfData get];
+    int result = [self PDFopenMem:byteArr :len :nil];*/
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                    initWithURL:[NSURL
+                                                 URLWithString:url]];
+    
+    [request setHTTPMethod:@"GET"];
+    //[request setValue:@"application/json"
+    //forHTTPHeaderField:@"Content-type"];
+    
+    //NSString *jsonString = @"{}";
+    
+    //[request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[jsonString length]] forHTTPHeaderField:@"Content-length"];
+    
+    //[request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+    receivedData = [[NSMutableData alloc] init];
     
     
-    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    NSURLConnection *cmdConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
     //Open PDF from Mem demo
-    char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf" inDirectory:@"fdat"] UTF8String];
+    /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
     FILE *file1 = fopen(path1, "rb");
     fseek(file1, 0, SEEK_END);
     int filesize1 = ftell(file1);
     fseek(file1, 0, SEEK_SET);
     
-    
     buffer = malloc((filesize1)*sizeof(char));
     fread(buffer, filesize1, 1, file1);
     fclose(file1);
     
-    [m_pdf PDFopenMem: buffer :filesize1 :nil];
-    
-    
-    
-    //Open PDF from FileStream demo
-    //stream = [[PDFFileStream alloc] init];
-    
-    
-    //Open PDF HTTPStream demo
-    //@testUrlPath: the http pdf path you requested,this url needs support [NSURLRequest forHTTPHeaderField:@"Range"] method
-    //@testfile : You need set a temp path in sandbox to save the request file
-    // httpStream = [[PDFHttpStream alloc] init];
-    // [httpStream open:testUrlPath :testfile];
-    // [m_pdf PDFOpenStream:httpStream :@""];
-    
-    
-    UINavigationController *nav = self.navigationController;
-    m_pdf.hidesBottomBarWhenPushed = YES;
-    [nav pushViewController:m_pdf animated:YES];
+    [self PDFopenMem: buffer :filesize1 :nil];*/
     
     //use PDFopenMem ,here need release memory
     //free(buffer);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Append the new data to receivedData.
+    [receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // do something with the data, for example log:
+    int len = (int)[receivedData length];
+    Byte *byteData = (Byte*)malloc(len);
+    memcpy(byteData, [receivedData bytes], len);
+    int result = [self PDFopenMem:byteData :len :nil];
+    NSLog(@"%d", result);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    if(!b_outline)
+    {
+        //[m_ThumbView vClose] should before [m_view vClose]
+        [m_view vClose];
+    }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+-(BOOL)isPortrait
+{
+    return ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait ||
+            [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeOrientation" object:nil];
+    return YES;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    CGRect rect =[[UIScreen mainScreen]bounds];
+    if ([self isPortrait])
+    {
+        if (rect.size.height < rect.size.width) {
+            
+            float height = rect.size.height;
+            rect.size.height = rect.size.width;
+            rect.size.width = height;
+        }
+    }
+    else
+    {
+        if (rect.size.height > rect.size.width) {
+            
+            float height = rect.size.height;
+            rect.size.height = rect.size.width;
+            rect.size.width = height;
+        }
+    }
     
+    CGRect barViewRect = [self.barView bounds];
+    float height = rect.size.height - 20 - barViewRect.size.height;
+    CGRect newrect = CGRectMake(0, barViewRect.size.height, rect.size.width, height);
+    
+    [m_view setFrame:newrect];
+    [m_view sizeThatFits:newrect.size];
+    
+    [m_view resetZoomLevel];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(int)PDFOpen:(NSString *)path : (NSString *)pwd
+{
+    [self PDFClose];
+    PDF_ERR err = 0;
+    m_doc = [[PDFDoc alloc] init];
+    err = [m_doc open:path :pwd];
+    
+    switch( err )
+    {
+        case err_ok:
+            break;
+        case err_password:
+            return 2;
+            break;
+        default: return 0;
+    }
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    
+    //GEAR
+    if (![self isPortrait] && rect.size.width < rect.size.height) {
+        float height = rect.size.height;
+        rect.size.height = rect.size.width;
+        rect.size.width = height;
+    }
+    //END
+    CGRect barViewRect = [self.barView bounds];
+    float height = rect.size.height - barViewRect.size.height;
+    if(SYS_VERSION >= 7.0) height = height - 20;
+    
+    m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, barViewRect.size.height, rect.size.width, height)];
+    [m_view vOpen :m_doc :(id<PDFViewDelegate>)self];
+    [self.view addSubview:m_view];
+    return 1;
 }
-*/
+
+-(int)PDFOpenStream:(id<PDFStream>)stream :(NSString *)password
+{
+    [self PDFClose];
+    PDF_ERR err = 0;
+    m_doc = [[PDFDoc alloc] init];
+    // err = [m_doc open:path :pwd];
+    err = [m_doc openStream:stream :password];
+    switch( err )
+    {
+        case err_ok:
+            break;
+        case err_password:
+            return 2;
+            break;
+        default: return 0;
+    }
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    
+    //GEAR
+    if (![self isPortrait] && rect.size.width < rect.size.height) {
+        float height = rect.size.height;
+        rect.size.height = rect.size.width;
+        rect.size.width = height;
+    }
+    //END
+    CGRect barViewRect = [self.barView bounds];
+    float height = rect.size.height - barViewRect.size.height;
+    if(SYS_VERSION >= 7.0) height = height - 20;
+    
+    m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, barViewRect.size.height, rect.size.width, height)];
+    [m_view vOpen:m_doc: (id<PDFViewDelegate>)self];
+    [self.view addSubview:m_view];
+    return 1;
+}
+
+-(int)PDFopenMem : (void *)data : (int)data_size :(NSString *)pwd
+{
+    [self PDFClose];
+    PDF_ERR err = 0;
+    m_doc = [[PDFDoc alloc] init];
+    err = [m_doc openMem:data :data_size :pwd];
+    switch( err )
+    {
+        case err_ok:
+            break;
+        case err_password:
+            return 2;
+            break;
+        default: return 0;
+    }
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    
+    //GEAR
+    if (![self isPortrait] && rect.size.width < rect.size.height) {
+        float height = rect.size.height;
+        rect.size.height = rect.size.width;
+        rect.size.width = height;
+    }
+    //END
+    CGRect barViewRect = [self.barView bounds];
+    float height = rect.size.height - barViewRect.size.height;
+    if(SYS_VERSION >= 7.0) height = height - 20;
+    
+    m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, barViewRect.size.height, rect.size.width, height)];
+    [m_view vOpen :m_doc :(id<PDFViewDelegate>)self];
+    [self.container addSubview:m_view];
+    return 1;
+}
+
+-(IBAction) close:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)PDFClose
+{
+    if( m_view != nil )
+    {
+        [m_view vClose];
+        [m_view removeFromSuperview];
+        m_view = NULL;
+    }
+    m_doc = NULL;
+}
+
+-(void)OnPageChanged:(int)pageno {}
+
+-(void)OnSingleTapped:(float)x :(float)y {}
+
+-(void)OnDoubleTapped:(float)x :(float)y {}
+
+-(void)OnLongPressed:(float)x :(float)y {}
+
+-(void)OnSingleTapped:(float)x :(float)y :(NSString *)text {}
+
+-(void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end
