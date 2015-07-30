@@ -17,6 +17,16 @@
     </js-module>
     
     <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="RadaeePDF" >
+                <param name="android-package" value="it.almaviva.cordovaplugins.RadaeePDF"/>
+            </feature>
+        </config-file>
+
+        <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
+        <framework src="android/ViewLib" custom="true" />
+    </platform>
 
 	<!-- ios -->
     <platform name="ios">
