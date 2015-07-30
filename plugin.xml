@@ -25,7 +25,8 @@
         </config-file>
 
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
-        <framework src="android/ViewLib" custom="true" />
+        <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
+        <!--<framework src="android/ViewLib" custom="true" />-->
     </platform>
 
 	<!-- ios -->
