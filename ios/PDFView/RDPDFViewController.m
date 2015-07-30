@@ -18,6 +18,8 @@
 @end
 
 @implementation RDPDFViewController
+@synthesize delegate;
+
 extern NSUserDefaults *userDefaults;
 bool b_outline;
 
@@ -86,7 +88,7 @@ bool b_outline;
     
     
     
-    NSURLConnection *cmdConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    pdfConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
     //Open PDF from Mem demo
     /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
@@ -115,10 +117,44 @@ bool b_outline;
 {
     // do something with the data, for example log:
     int len = (int)[receivedData length];
+    [delegate pdfChargeDidFinishLoading:len];
     Byte *byteData = (Byte*)malloc(len);
     memcpy(byteData, [receivedData bytes], len);
     int result = [self PDFopenMem:byteData :len :nil];
     NSLog(@"%d", result);
+}
+
+/*- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    pdfConn = nil;
+    receivedData = nil;
+    
+    // inform the user
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    
+    //[delegate pdfChargedidFailWithError:[error localizedDescription] andCode:[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]];
+}*/
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([response respondsToSelector:@selector(statusCode)])
+    {
+        int statusCode = [((NSHTTPURLResponse *)response) statusCode];
+        if (statusCode == 404)
+        {
+            [connection cancel];  // stop connecting; no more delegate messages
+            NSLog(@"didReceiveResponse statusCode with %i", statusCode);
+        }
+        if(statusCode != 200) [delegate pdfChargeDidFailWithError:@"Error chargin pdf" andCode:statusCode];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated

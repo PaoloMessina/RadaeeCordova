@@ -20,42 +20,56 @@
 
 - (void)pluginInitialize
 {
-    
+    showPdfInProgress = NO;
 }
 
 #pragma mark - Plugin API
 
 - (void)show: (CDVInvokedUrlCommand*)command;
 {
-	self.cdv_command = command;
-    
-    // Get user parameters
-    NSDictionary *params = (NSDictionary*) [cdv_command argumentAtIndex:0];
-
-	if( m_pdf == nil )
-    {
-        m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController" bundle:nil];
+    self.cdv_command = command;
+    if(showPdfInProgress){
+        [self.commandDelegate
+         sendPluginResult: [CDVPluginResult
+                            resultWithStatus: CDVCommandStatus_ERROR
+                            messageAsString:@"A pdf opening is already in progress."]
+         callbackId: [command callbackId]];
+    } else {
+        showPdfInProgress = YES;
+        // Get user parameters
+        NSDictionary *params = (NSDictionary*) [cdv_command argumentAtIndex:0];
+        
+        if( m_pdf == nil )
+        {
+            m_pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController" bundle:nil];
+        }
+        [m_pdf setData:params];
+        [m_pdf setDelegate:self];
+        
+        m_pdf.hidesBottomBarWhenPushed = YES;
+        [self.viewController presentViewController:m_pdf animated:YES completion:nil];
     }
-    [m_pdf setData:params];
-    
-    //Open PDF from Mem demo
-    /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
-    FILE *file1 = fopen(path1, "rb");
-    fseek(file1, 0, SEEK_END);
-    int filesize1 = ftell(file1);
-    fseek(file1, 0, SEEK_SET);
-    
-    buffer = malloc((filesize1)*sizeof(char));
-    fread(buffer, filesize1, 1, file1);
-    fclose(file1);
-    
-    [m_pdf PDFopenMem: buffer :filesize1 :nil]; */
+}
 
-    m_pdf.hidesBottomBarWhenPushed = YES;
-    [self.viewController presentViewController:m_pdf animated:YES completion:nil];
-    
-    //use PDFopenMem ,here need release memory
-    //free(buffer);
+- (void)chargePdfSendResult: (CDVPluginResult*)result
+{
+    showPdfInProgress = NO;
+    m_pdf = nil;
+    [self.commandDelegate sendPluginResult: result callbackId: [self.cdv_command callbackId]];
+}
+
+- (void)pdfChargeDidFinishLoading:(int)lenght{
+    [self chargePdfSendResult:[CDVPluginResult
+                               resultWithStatus: CDVCommandStatus_OK
+                               messageAsString:@"Pdf Succesfully charged"]];
+}
+
+- (void)pdfChargeDidFailWithError:(NSString*)errorMessage andCode:(int)statusCode{
+    [m_pdf dismissViewControllerAnimated:YES completion:nil];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:errorMessage, @"errorMessage", statusCode, @"statusCode", nil];
+    [self chargePdfSendResult:[CDVPluginResult
+                               resultWithStatus: CDVCommandStatus_ERROR
+                               messageAsDictionary:dict]];
 }
 
 @end

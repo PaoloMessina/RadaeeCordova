@@ -12,11 +12,21 @@
 
 @class PDFView;
 @class PDFV;
+@class RDPDFViewController;
+
+// define the protocol for the delegate
+@protocol RDPDFViewControllerDelegate
+// define protocol functions that can be used in any class using this delegate
+- (void)pdfChargeDidFinishLoading:(int)dim;
+- (void)pdfChargeDidFailWithError:(NSString*)error andCode:(int)errorCode;
+@end;
 
 @interface RDPDFViewController : UIViewController
 {
     PDFView *m_view;
     PDFDoc *m_doc;
+    
+    NSURLConnection *pdfConn;
     NSString *url;
     NSMutableData *receivedData;
     void *buffer;
@@ -39,5 +49,8 @@
 -(void)PDFClose;
 
 -(BOOL)isPortrait;
+
+// define delegate property
+@property (nonatomic, assign) id  delegate;
 
 @end
