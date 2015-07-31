@@ -48,6 +48,9 @@ public class RadaeePDF extends CordovaPlugin {
         	JSONObject r = args.getJSONObject(0);
             String targetPath = r.optString("url");
             c = this.cordova.getActivity().getApplicationContext();
+            Intent i = new Intent(c, RPDFViewActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            c.startActivity(i);
 
             callbackContext.success(r);
         }
