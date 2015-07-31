@@ -23,9 +23,71 @@
                 <param name="android-package" value="it.almaviva.cordovaplugins.RadaeePDF"/>
             </feature>
         </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="application">
+            <activity
+                android:name="it.almaviva.cordovaplugins.RPDFViewActivity"
+                android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+                android:noHistory="true" >
+            </activity>
+        </config-file>
 
+		<source-file src="android/RPDFViewActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
+        
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Obj.java" target-dir="src/com/radaee/pdf/adv" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Ref.java" target-dir="src/com/radaee/pdf/adv" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/BMDatabase.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/BMP.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/DIB.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Document.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Global.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/HWriting.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Ink.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Matrix.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Page.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/PageContent.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Path.java" target-dir="src/com/radaee/pdf" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/SuperDoc.java" target-dir="src/com/radaee/pdf" />
+        
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFBotBar.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFCurlViewAct.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFLayoutView.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFMenu.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFTopBar.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFNavAct.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFViewAct.java" target-dir="src/com/radaee/reader" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFViewController.java" target-dir="src/com/radaee/reader" />
+        
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/ComboList.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/ComboListAdt.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/OutlineList.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/OutlineListAdt.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFAESStream.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFAssetStream.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFFileStream.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFGridAdt.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFGridItem.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFGridThread.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFGridView.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFHttpStream.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFMemStream.java" target-dir="src/com/radaee/util" />
+        <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFThumbView.java" target-dir="src/com/radaee/util" />
+        
+        <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlMesh.java" target-dir="src/main/java/fi/harism/curl" />
+        <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlPage.java" target-dir="src/main/java/fi/harism/curl" />
+        <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlRenderer.java" target-dir="src/main/java/fi/harism/curl" />
+        <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlView.java" target-dir="src/main/java/fi/harism/curl" />
+        
+        <source-file src="android/ViewLib/src/main/jniLibs/arm64-v8a/librdpdf.so" target-dir="src/main/jniLibs/arm64-v8a" />
+        <source-file src="android/ViewLib/src/main/jniLibs/armeabi/librdpdf.so" target-dir="src/main/jniLibs/armeabi" />
+        <source-file src="android/ViewLib/src/main/jniLibs/armeabi-v7a/librdpdf.so" target-dir="src/main/jniLibs/armeabi-v7a" />
+        <source-file src="android/ViewLib/src/main/jniLibs/mips/librdpdf.so" target-dir="src/main/jniLibs/mips" />
+        <source-file src="android/ViewLib/src/main/jniLibs/mips64/librdpdf.so" target-dir="src/main/jniLibs/mips64" />
+        <source-file src="android/ViewLib/src/main/jniLibs/x86/librdpdf.so" target-dir="src/main/jniLibs/x86" />
+        <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="src/main/jniLibs/x86_64" />
+        
         <!--<framework src="android/ViewLib" custom="true" />-->
     </platform>
 
