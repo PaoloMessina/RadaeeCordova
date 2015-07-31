@@ -34,7 +34,7 @@
 
 		<source-file src="android/RPDFViewActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
-        <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
+        <!--<source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
         
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Obj.java" target-dir="src/com/radaee/pdf/adv" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Ref.java" target-dir="src/com/radaee/pdf/adv" />
@@ -86,9 +86,10 @@
         <source-file src="android/ViewLib/src/main/jniLibs/mips/librdpdf.so" target-dir="src/main/jniLibs/mips" />
         <source-file src="android/ViewLib/src/main/jniLibs/mips64/librdpdf.so" target-dir="src/main/jniLibs/mips64" />
         <source-file src="android/ViewLib/src/main/jniLibs/x86/librdpdf.so" target-dir="src/main/jniLibs/x86" />
-        <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="src/main/jniLibs/x86_64" />
+        <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="src/main/jniLibs/x86_64" />-->
         
-        <!--<framework src="android/ViewLib" custom="true" />-->
+        
+        <framework src="android/ViewLib" custom="true" type='projectReference' />
     </platform>
 
 	<!-- ios -->

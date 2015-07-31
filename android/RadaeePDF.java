@@ -21,7 +21,7 @@ public class RadaeePDF extends CordovaPlugin {
 	/**
      * Constructor.
      */
-    public InAppPdf() {
+    public RadaeePDF() {
     }
 
     /**
@@ -46,7 +46,7 @@ public class RadaeePDF extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("show")) {
         	JSONObject r = args.getJSONObject(0);
-            String targetPath = r.optString("targetPath");
+            String targetPath = r.optString("url");
             c = this.cordova.getActivity().getApplicationContext();
 
             callbackContext.success(r);
@@ -55,15 +55,5 @@ public class RadaeePDF extends CordovaPlugin {
             return false;
         }
         return true;
-    }
-
-    private void copyFile(InputStream in, OutputStream out) throws IOException
-    {
-        byte[] buffer = new byte[1024];
-        int read;
-        while ((read = in.read(buffer)) != -1)
-        {
-            out.write(buffer, 0, read);
-        }
     }
 }
