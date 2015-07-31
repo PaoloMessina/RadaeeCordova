@@ -1,7 +1,11 @@
 package it.almaviva.cordovaplugins;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
@@ -17,6 +21,9 @@ import com.radaee.pdf.Matrix;
 import com.radaee.pdf.Page;
 import com.radaee.util.PDFAssetStream;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,10 +35,14 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by pmessina on 30/07/15.
  */
 public class RPDFViewActivity extends Activity {
+
+    public static final String EXTRA_PARAMS = "RPDF_EXTRA_PARAMS";
+
     private Document m_doc = null;
     private PDFAssetStream m_asset_stream = null;
     private DIB m_dib = new DIB();
     private GLSurfaceView m_view;
+
     class SimpleRenderer implements Renderer
     {
         private int m_w;
@@ -116,8 +127,36 @@ public class RPDFViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Global.Init( this );
+        Global.Init(this);
+        ActionBar bar = getActionBar();
         AssetManager am = getAssets();
+
+        // Get parameters from JS
+        Intent startIntent = getIntent();
+        String paramStr = startIntent.getStringExtra(EXTRA_PARAMS);
+        JSONObject params;
+        try { params = new JSONObject(paramStr); }
+        catch (JSONException e) { params = new JSONObject(); }
+
+        String barColor = params.optString("barColor");
+        if(barColor != null && barColor.length() > 0){
+            barColor = barColor.startsWith("#") ? barColor : "#" + barColor;
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(barColor)));
+        }
+
+        String titleString = params.optString("title");
+        if(titleString != null && titleString.length() > 0){
+            bar.setTitle(titleString);
+        } else {
+            bar.setTitle("");
+        }
+
+        Boolean showClose = params.optBoolean("showClose");
+        if(!showClose){
+            bar.setHomeButtonEnabled(true);
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
+
         byte[] data = null;
         try {
             InputStream inputStream = am.open("test.PDF");
@@ -138,5 +177,17 @@ public class RPDFViewActivity extends Activity {
         if(m_dib != null) m_dib.Free();
         Global.RemoveTmp();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
