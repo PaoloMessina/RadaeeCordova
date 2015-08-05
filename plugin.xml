@@ -23,15 +23,7 @@
                 <param name="android-package" value="it.almaviva.cordovaplugins.RadaeePDF"/>
             </feature>
         </config-file>
-        
-        <!--<config-file target="AndroidManifest.xml" parent="application">
-            <activity
-                android:name="it.almaviva.cordovaplugins.RPDFViewActivity"
-                android:noHistory="true" >
-            </activity>
-        </config-file>
 
-		<source-file src="android/RPDFViewActivity.java" target-dir="src/it/almaviva/cordovaplugins" />-->
 		<config-file target="AndroidManifest.xml" parent="application">
             <activity android:name="it.almaviva.cordovaplugins.ReaderActivity" 
             android:noHistory="true" 
@@ -97,6 +89,9 @@
         
         <!-- Import to not have compile error when the libs find the resources, the resources is not included -->
         <source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />
+        
+        <!-- Import to include guava dependency -->
+        <framework src="build-extras.gradle" custom="true" type="gradleReference" />
     </platform>
 
 	<!-- ios -->

@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import com.google.common.io.ByteStreams;
 import com.radaee.pdf.Document;
 import com.radaee.pdf.Global;
-import com.radaee.util.PDFAssetStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +25,12 @@ import java.io.InputStream;
 public class ReaderActivity extends Activity {
 
     public static final String EXTRA_PARAMS = "RPDF_EXTRA_PARAMS";
+    public static final String EXTRA_PARAMS_DATA = "RPDF_EXTRA_PARAMS_DATA";
+    public static final String EXTRA_PARAMS_RETURN = "RPDF_EXTRA_PARAMS_RETURN";
+    public static final int READER_PDF_ACTIVITY_RESULT = 1;
+    public static final int READER_PDF_ACTIVITY_RESULT_OK = 0;
+    public static final int READER_PDF_ACTIVITY_RESULT_KO = 1;
+
     private ReaderController m_vPDF = null;
     private Document doc = new Document();
 
@@ -70,13 +75,16 @@ public class ReaderActivity extends Activity {
         m_vPDF = new ReaderController(this);
         doc.Close();
 
-        byte[] data = null;
+        /*byte[] data = null;
         try {
             InputStream inputStream = am.open("test.PDF");
             data = ByteStreams.toByteArray(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        byte[] data = startIntent.getByteArrayExtra(EXTRA_PARAMS_DATA);
+
         doc = new Document();
 
         {
@@ -123,6 +131,11 @@ public class ReaderActivity extends Activity {
         }
         Global.RemoveTmp();
         super.onDestroy();
+    }
+
+    public void sendResult(int resultStatus, String resultJson){
+        Intent data = new Intent();
+        data.putExtra(EXTRA_PARAMS_RETURN, resultJson);
     }
 
     @Override

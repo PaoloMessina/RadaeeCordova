@@ -2,6 +2,9 @@ package it.almaviva.cordovaplugins;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+
+import com.google.common.io.ByteStreams;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -11,10 +14,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 public class RadaeePDF extends CordovaPlugin {
 
+
     private Context c;
+    private CallbackContext callbackContext;
+    private JSONObject params;
 	/**
      * Constructor.
      */
@@ -42,20 +56,121 @@ public class RadaeePDF extends CordovaPlugin {
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("show")) {
-        	JSONObject params = args.getJSONObject(0);
+            this.callbackContext = callbackContext;
+        	params = args.getJSONObject(0);
             String targetPath = params.optString("url");
 
-            c = this.cordova.getActivity().getApplicationContext();
+            new DownloadFile().execute(targetPath);
+
+            /*c = this.cordova.getActivity().getApplicationContext();
             Intent i = new Intent(c, ReaderActivity.class);
             i.putExtra(RPDFViewActivity.EXTRA_PARAMS, params.toString());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            c.startActivity(i);
-
-            callbackContext.success(params);
+            c.startActivity(i);*/
         }
         else {
             return false;
         }
         return true;
+    }
+
+    private class DownloadFile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String fileUrl = strings[0];
+            FileDownloader fd = new FileDownloader(new Callback() {
+                @Override
+                public void pdfChargeDidFinishLoading(String data) {
+                    try {
+                        callbackContext.success(new JSONObject(data));
+                    } catch (JSONException e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+
+                @Override
+                public void pdfChargeDidFailWithError(String data) {
+                    try {
+                        callbackContext.error(new JSONObject(data));
+                    } catch (JSONException e) {
+                        callbackContext.error(e.getMessage());
+                    }
+                }
+            });
+            fd.downloadFile(fileUrl);
+            return null;
+        }
+    }
+
+    public interface Callback {
+        void pdfChargeDidFinishLoading(String data);
+
+        void pdfChargeDidFailWithError(String data);
+    }
+
+    public class FileDownloader {
+        private static final int  MEGABYTE = 1024 * 1024;
+
+        public void setCbk(Callback cbk) {
+            this.cbk = cbk;
+        }
+
+        private Callback cbk;
+
+        public FileDownloader(Callback cbk){
+            this.cbk = cbk;
+        }
+
+        public void downloadFile(String fileUrl){
+            try {
+
+                URL url = new URL(fileUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+
+                byte[] data = ByteStreams.toByteArray(inputStream);
+
+                if(data != null && data.length > 0){
+                    cbk.pdfChargeDidFinishLoading("PDF download Success");
+                } else {
+                    cbk.pdfChargeDidFailWithError("ERROR DOWNLOAD PDF");
+                }
+
+                c = RadaeePDF.this.cordova.getActivity().getApplicationContext();
+                Intent i = new Intent(c, ReaderActivity.class);
+                i.putExtra(ReaderActivity.EXTRA_PARAMS, params.toString());
+                i.putExtra(ReaderActivity.EXTRA_PARAMS_DATA, data);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                c.startActivity(i);
+
+            } catch (FileNotFoundException e) {
+                cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1, e.getMessage()));
+            } catch (MalformedURLException e) {
+                cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1, e.getMessage()));
+            } catch (IOException e) {
+                cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1, e.getMessage()));
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            // Check which request we're responding to
+            if (requestCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT) {
+                // Make sure the request was successful
+                if (resultCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT_OK) {
+                    callbackContext.success(data.getStringExtra(ReaderActivity.EXTRA_PARAMS_RETURN));
+                } else if (resultCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT_KO) {
+                    callbackContext.error(new JSONObject(data.getStringExtra(ReaderActivity.EXTRA_PARAMS_RETURN)));
+                }
+            }
+        }
+        catch (JSONException e) {
+            callbackContext.error(e.getMessage());
+        }
     }
 }
