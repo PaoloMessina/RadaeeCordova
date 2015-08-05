@@ -1,10 +1,7 @@
 package it.almaviva.cordovaplugins;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -49,7 +46,7 @@ public class RadaeePDF extends CordovaPlugin {
             String targetPath = params.optString("url");
 
             c = this.cordova.getActivity().getApplicationContext();
-            Intent i = new Intent(c, RPDFViewActivity.class);
+            Intent i = new Intent(c, ReaderActivity.class);
             i.putExtra(RPDFViewActivity.EXTRA_PARAMS, params.toString());
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             c.startActivity(i);

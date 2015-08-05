@@ -24,14 +24,22 @@
             </feature>
         </config-file>
         
-        <config-file target="AndroidManifest.xml" parent="application">
+        <!--<config-file target="AndroidManifest.xml" parent="application">
             <activity
                 android:name="it.almaviva.cordovaplugins.RPDFViewActivity"
                 android:noHistory="true" >
             </activity>
         </config-file>
 
-		<source-file src="android/RPDFViewActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
+		<source-file src="android/RPDFViewActivity.java" target-dir="src/it/almaviva/cordovaplugins" />-->
+		<config-file target="AndroidManifest.xml" parent="application">
+            <activity android:name="it.almaviva.cordovaplugins.ReaderActivity" 
+            android:noHistory="true" 
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+            </activity>
+        </config-file>
+		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
+		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
         
