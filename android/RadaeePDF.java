@@ -110,7 +110,6 @@ public class RadaeePDF extends CordovaPlugin {
     }
 
     public class FileDownloader {
-        private static final int  MEGABYTE = 1024 * 1024;
 
         public void setCbk(Callback cbk) {
             this.cbk = cbk;

@@ -11,7 +11,7 @@ http://www.radaeepdf.com/ecommerce/technical-specification
 
 ## Installation
 
-    cordova plugins install it.almaviva.cordovaplugins.radaeepdf
+    cordova plugins add https://github.com/PaoloMessina/RadaeeCordova
     
 ## Configuration
 
@@ -22,6 +22,8 @@ http://www.radaeepdf.com/ecommerce/technical-specification
 	3. Add **#import "NSObject+PerformBlock.h"** in you <Project_name>.pch file
 
 ### Android
+
+	No additional configuration needed
 
 ## API
 
@@ -50,6 +52,6 @@ Status:
 - Android: DONE
 - iOS: DONE
 
-Quirks:
-
-- __Android__: The app must have installed at least one pdf reader.
+RadaeePDF library version included:
+- Android: v3.5
+- iOS:     v3.3.7
