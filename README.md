@@ -47,6 +47,24 @@ http://www.radaeepdf.com/ecommerce/technical-specification
 - **onSuccess**: function (message) {...} _Callback for successful opening._
 - **onFailure**: function (err) {...} _Callback for cancelled show or error._
 
+### Example:
+
+	```javascript	
+	radaeePdf.open(
+		{
+			url: "http://www.ncu.edu.tw/~ncu25352/Uploads/20131231103232738561744.pdf", 
+			barColor: "#AEC7F5", 
+			showClose: "false", 
+			title: "PDF Test"
+		},
+		function(message){ 
+			console.log("evvai: " + message); 
+		},
+		function(err){ 
+			console.log(err); 
+		});
+	```
+
 Status:
 
 - Android: DONE
