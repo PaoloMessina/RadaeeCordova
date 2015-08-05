@@ -91,7 +91,7 @@
         <source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />
         
         <!-- Import to include guava dependency -->
-        <framework src="build-extras.gradle" custom="true" type="gradleReference" />
+        <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
     </platform>
 
 	<!-- ios -->
