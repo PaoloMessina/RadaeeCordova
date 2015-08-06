@@ -2,7 +2,9 @@ package it.almaviva.cordovaplugins;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.webkit.URLUtil;
 
 import com.google.common.io.ByteStreams;
 
@@ -15,13 +17,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 
 public class RadaeePDF extends CordovaPlugin {
 
@@ -60,7 +62,28 @@ public class RadaeePDF extends CordovaPlugin {
         	params = args.getJSONObject(0);
             String targetPath = params.optString("url");
 
-            new DownloadFile().execute(targetPath);
+            if(targetPath != null && targetPath != ""){
+                if(URLUtil.isFileUrl(targetPath)){
+                    c = this.cordova.getActivity().getApplicationContext();
+                    byte[] data = null;
+                    try {
+                        InputStream inputStream = new FileInputStream(targetPath);
+                        data = ByteStreams.toByteArray(inputStream);
+                    } catch (IOException e) {
+                        callbackContext.error(e.getMessage());
+                    }
+
+                    Intent i = new Intent(c, ReaderActivity.class);
+                    i.putExtra(ReaderActivity.EXTRA_PARAMS, params.toString());
+                    i.putExtra(ReaderActivity.EXTRA_PARAMS_DATA, data);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    c.startActivity(i);
+                } else {
+                    new DownloadFile().execute(targetPath);
+                }
+            } else {
+                callbackContext.error("url is null or white space, this is a mandatory parameter");
+            }
 
             /*c = this.cordova.getActivity().getApplicationContext();
             Intent i = new Intent(c, ReaderActivity.class);
@@ -110,6 +133,7 @@ public class RadaeePDF extends CordovaPlugin {
     }
 
     public class FileDownloader {
+        private static final int  MEGABYTE = 1024 * 1024;
 
         public void setCbk(Callback cbk) {
             this.cbk = cbk;
@@ -172,4 +196,5 @@ public class RadaeePDF extends CordovaPlugin {
             callbackContext.error(e.getMessage());
         }
     }
+
 }
