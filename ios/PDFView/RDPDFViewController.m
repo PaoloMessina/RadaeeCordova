@@ -56,14 +56,16 @@ bool b_outline;
         self.container.frame = viewBounds;
     }
     NSString *barColor = [self.data objectForKey:@"barColor"];
-    if([barColor containsString:@"#"])barColor = [barColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
-    unsigned int baseValue;
-    [[NSScanner scannerWithString:barColor] scanHexInt:&baseValue];
-    self.view.backgroundColor = UIColorFromRGB(baseValue);
-    self.barView.backgroundColor = UIColorFromRGB(baseValue);
+    if(barColor){
+        if([barColor containsString:@"#"])barColor = [barColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        unsigned int baseValue;
+        [[NSScanner scannerWithString:barColor] scanHexInt:&baseValue];
+        self.view.backgroundColor = UIColorFromRGB(baseValue);
+        self.barView.backgroundColor = UIColorFromRGB(baseValue);
+    }
     self.backButton.hidden = showClose;
     self.closeButton.hidden = !showClose;
-    self.titleLabel.text = title;
+    if(title) self.titleLabel.text = title;
     
     /*NSString* pdfData = [self.data objectForKey:@"pdfData"];
     int len = (int)[pdfData length];
@@ -71,24 +73,42 @@ bool b_outline;
     byteArr = [pdfData get];
     int result = [self PDFopenMem:byteArr :len :nil];*/
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-                                    initWithURL:[NSURL
-                                                 URLWithString:url]];
-    
-    [request setHTTPMethod:@"GET"];
-    //[request setValue:@"application/json"
-    //forHTTPHeaderField:@"Content-type"];
-    
-    //NSString *jsonString = @"{}";
-    
-    //[request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[jsonString length]] forHTTPHeaderField:@"Content-length"];
-    
-    //[request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
-    receivedData = [[NSMutableData alloc] init];
-    
-    
-    
-    pdfConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if(![[NSURL URLWithString:url] isFileURL]){
+        NSString* authToken = [self.data objectForKey:@"authToken"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                        initWithURL:[NSURL
+                                                     URLWithString:url]];
+        
+        [request setHTTPMethod:@"GET"];
+        if(authToken){
+            NSLog(@"authToken: %@", authToken);
+        }
+        //[request setValue:@"application/json"
+        //forHTTPHeaderField:@"Content-type"];
+        
+        //NSString *jsonString = @"{}";
+        
+        //[request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[jsonString length]] forHTTPHeaderField:@"Content-length"];
+        
+        //[request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+        receivedData = [[NSMutableData alloc] init];
+        pdfConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    } else {
+        /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"filePdfTest.pdf"];*/
+
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:[url stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
+        int len = (int)[data length];
+        
+        Byte *byteData = (Byte*)malloc(len);
+        memcpy(byteData, [data bytes], len);
+        int result = [self PDFopenMem:byteData :len :nil];
+        NSLog(@"%d", result);
+        if(result != err_ok && result != err_open){
+            [delegate pdfChargeDidFailWithError:@"Error open mem stream pdf" andCode:(NSInteger) result];
+        }
+    }
     
     //Open PDF from Mem demo
     /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
@@ -338,6 +358,7 @@ bool b_outline;
 }
 
 -(IBAction) close:(id)sender{
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

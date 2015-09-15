@@ -65,8 +65,12 @@
 }
 
 - (void)pdfChargeDidFailWithError:(NSString*)errorMessage andCode:(int)statusCode{
+    showPdfInProgress = NO;
     [m_pdf dismissViewControllerAnimated:YES completion:nil];
-    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:errorMessage, @"errorMessage", statusCode, @"statusCode", nil];
+    NSDictionary *dict = @{
+                                @"errorMessage" : errorMessage,
+                                @"statusCode" : [NSNumber numberWithInt:statusCode]
+                                };
     [self chargePdfSendResult:[CDVPluginResult
                                resultWithStatus: CDVCommandStatus_ERROR
                                messageAsDictionary:dict]];
