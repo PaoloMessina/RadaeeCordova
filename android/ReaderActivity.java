@@ -43,7 +43,6 @@ public class ReaderActivity extends Activity {
         Global.Init(this);
 
         ActionBar bar = getActionBar();
-        AssetManager am = getAssets();
 
         // Get parameters from JS
         Intent startIntent = getIntent();

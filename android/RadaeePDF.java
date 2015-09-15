@@ -61,6 +61,7 @@ public class RadaeePDF extends CordovaPlugin {
             this.callbackContext = callbackContext;
         	params = args.getJSONObject(0);
             String targetPath = params.optString("url");
+            String authToken = params.optString("authToken");
 
             if(targetPath != null && targetPath != ""){
                 if(URLUtil.isFileUrl(targetPath)){
@@ -79,7 +80,7 @@ public class RadaeePDF extends CordovaPlugin {
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity(i);
                 } else {
-                    new DownloadFile().execute(targetPath);
+                    new DownloadFile().execute(targetPath, authToken);
                 }
             } else {
                 callbackContext.error("url is null or white space, this is a mandatory parameter");
@@ -102,6 +103,7 @@ public class RadaeePDF extends CordovaPlugin {
         @Override
         protected Void doInBackground(String... strings) {
             String fileUrl = strings[0];
+            String authToken = strings[1];
             FileDownloader fd = new FileDownloader(new Callback() {
                 @Override
                 public void pdfChargeDidFinishLoading(String data) {
@@ -121,7 +123,7 @@ public class RadaeePDF extends CordovaPlugin {
                     }
                 }
             });
-            fd.downloadFile(fileUrl);
+            fd.downloadFile(fileUrl, authToken);
             return null;
         }
     }
@@ -145,11 +147,12 @@ public class RadaeePDF extends CordovaPlugin {
             this.cbk = cbk;
         }
 
-        public void downloadFile(String fileUrl){
+        public void downloadFile(String fileUrl, String authToken){
             try {
 
                 URL url = new URL(fileUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                if(authToken != null) urlConnection.setRequestProperty ("authToken", authToken);
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
