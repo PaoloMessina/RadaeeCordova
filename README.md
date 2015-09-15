@@ -40,7 +40,8 @@ http://www.radaeepdf.com/ecommerce/technical-specification
     	url: "MANDATORY the url of the remote pdf resource", 
 		barColor: "OPTIONAL the color of the status/navigation bar in HEX format es: #AEC7F5", 
 		showClose: "OPTIONAL specify if you want to show a close button, otherwise will be visible the bacj button default: true", 
-		title: "OPTIONAL Navigation Bar title"
+		title: "OPTIONAL Navigation Bar title",
+		authToken: "oAuth token for request"
     }
     ```
 
