@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.webkit.URLUtil;
 
 import com.google.common.io.ByteStreams;
@@ -12,6 +13,8 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -157,7 +161,7 @@ public class RadaeePDF extends CordovaPlugin {
 
                 URL url = new URL(fileUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
-                urlConnection.setRequestMethod("POST");
+                //urlConnection.setRequestMethod("POST");
 
                 if(header != null && header.length() >= 0 ){
                     Iterator<?> keys = header.keys();
@@ -165,12 +169,21 @@ public class RadaeePDF extends CordovaPlugin {
                         String key = (String)keys.next();
                         try {
                             if ( header.get(key) instanceof String ) {
-                                urlConnection.setRequestProperty (key, header.getString(key));
+                                //Log.d("it.almaviva.RadaeePDF", String.format("%s : %s", key, header.getString(key)));
+                                urlConnection.setRequestProperty(key, header.getString(key));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+                }
+                int code = urlConnection.getResponseCode();
+                if(code > 200){
+                    InputStream errorStream = urlConnection.getErrorStream();
+                    java.util.Scanner scanner = new java.util.Scanner(errorStream).useDelimiter("\\A");
+                    String error = scanner.next();
+                    cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", code, error));
+                    return;
                 }
 
                 urlConnection.connect();
@@ -182,7 +195,7 @@ public class RadaeePDF extends CordovaPlugin {
                 if(data != null && data.length > 0){
                     cbk.pdfChargeDidFinishLoading("PDF download Success");
                 } else {
-                    cbk.pdfChargeDidFailWithError("ERROR DOWNLOAD PDF");
+                    cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1,"\"ERROR DOWNLOAD PDF, empty response\""));
                 }
 
                 c = RadaeePDF.this.cordova.getActivity().getApplicationContext();
@@ -200,6 +213,11 @@ public class RadaeePDF extends CordovaPlugin {
                 cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1, e.getMessage()));
             }
         }
+
+        /*public void downloadFile(String fileUrl, JSONObject header){
+            HttpClient httpclient = new DefaultHttpClient();
+
+        }*/
     }
 
     @Override
