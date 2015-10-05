@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,6 +23,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 
 public class RadaeePDF extends CordovaPlugin {
 
@@ -61,7 +61,7 @@ public class RadaeePDF extends CordovaPlugin {
             this.callbackContext = callbackContext;
         	params = args.getJSONObject(0);
             String targetPath = params.optString("url");
-            String authToken = params.optString("authToken");
+            JSONObject header = params.getJSONObject("headerParams");
 
             if(targetPath != null && targetPath != ""){
                 if(URLUtil.isFileUrl(targetPath)){
@@ -80,7 +80,7 @@ public class RadaeePDF extends CordovaPlugin {
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     c.startActivity(i);
                 } else {
-                    new DownloadFile().execute(targetPath, authToken);
+                    new DownloadFile(header).execute(targetPath);
                 }
             } else {
                 callbackContext.error("url is null or white space, this is a mandatory parameter");
@@ -100,10 +100,16 @@ public class RadaeePDF extends CordovaPlugin {
 
     private class DownloadFile extends AsyncTask<String, Void, Void> {
 
+        private JSONObject header;
+
+        public DownloadFile(JSONObject header) {
+            super();
+            this.header = header;
+        }
+
         @Override
         protected Void doInBackground(String... strings) {
             String fileUrl = strings[0];
-            String authToken = strings[1];
             FileDownloader fd = new FileDownloader(new Callback() {
                 @Override
                 public void pdfChargeDidFinishLoading(String data) {
@@ -123,14 +129,13 @@ public class RadaeePDF extends CordovaPlugin {
                     }
                 }
             });
-            fd.downloadFile(fileUrl, authToken);
+            fd.downloadFile(fileUrl, header);
             return null;
         }
     }
 
     public interface Callback {
         void pdfChargeDidFinishLoading(String data);
-
         void pdfChargeDidFailWithError(String data);
     }
 
@@ -147,12 +152,27 @@ public class RadaeePDF extends CordovaPlugin {
             this.cbk = cbk;
         }
 
-        public void downloadFile(String fileUrl, String authToken){
+        public void downloadFile(String fileUrl, JSONObject header){
             try {
 
                 URL url = new URL(fileUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
-                if(authToken != null) urlConnection.setRequestProperty ("authToken", authToken);
+                urlConnection.setRequestMethod("POST");
+
+                if(header != null && header.length() >= 0 ){
+                    Iterator<?> keys = header.keys();
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        try {
+                            if ( header.get(key) instanceof String ) {
+                                urlConnection.setRequestProperty (key, header.getString(key));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 urlConnection.connect();
 
                 InputStream inputStream = urlConnection.getInputStream();
