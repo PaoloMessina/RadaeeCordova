@@ -132,6 +132,7 @@
         <source-file src="ios/PDFView/RDPDFViewController.m" />
         <header-file src="ios/PDFView/RDPDFViewController.h" />
         <resource-file src="ios/PDFView/RDPDFViewController.xib" />
+        <resource-file src="ios/Resources/backImage.png" />
         
         <source-file src="ios/PDFLib/PDFObjc.m" />
         <header-file src="ios/PDFLib/PDFObjc.h" />
@@ -156,7 +157,6 @@
         <resource-file src="ios/fdat/12" />
         <resource-file src="ios/fdat/13" />
         <resource-file src="ios/fdat/argbsn00lp.ttf" />
-        <resource-file src="ios/fdat/PianoTerapeutico2.pdf" />
         
     </platform>
 
