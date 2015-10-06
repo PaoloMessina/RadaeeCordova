@@ -25,12 +25,7 @@
 {
     PDFView *m_view;
     PDFDoc *m_doc;
-    
-    NSURLConnection *pdfConn;
-    NSString *url;
-    NSMutableData *receivedData;
     void *buffer;
-    int statusCode;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *container;
@@ -40,6 +35,8 @@
 @property (nonatomic, weak) IBOutlet UIView *barView;
 
 @property (nonatomic, retain) NSDictionary *data;
+@property (nonatomic) Byte *byteData;
+@property (nonatomic) int byteDataLenght;
 
 -(IBAction) close:(id)sender;
 
