@@ -57,7 +57,9 @@ bool b_outline;
     }
     NSString *barColor = [self.data objectForKey:@"barColor"];
     if(barColor){
-        if([barColor containsString:@"#"])barColor = [barColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        if([barColor rangeOfString:@"#"].location != NSNotFound){
+            barColor = [barColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        }
         unsigned int baseValue;
         [[NSScanner scannerWithString:barColor] scanHexInt:&baseValue];
         self.view.backgroundColor = UIColorFromRGB(baseValue);
@@ -68,20 +70,24 @@ bool b_outline;
     if(title) self.titleLabel.text = title;
     
     /*NSString* pdfData = [self.data objectForKey:@"pdfData"];
-    int len = (int)[pdfData length];
-    Byte* byteArr = (Byte*)malloc(len);
-    byteArr = [pdfData get];
-    int result = [self PDFopenMem:byteArr :len :nil];*/
+     int len = (int)[pdfData length];
+     Byte* byteArr = (Byte*)malloc(len);
+     byteArr = [pdfData get];
+     int result = [self PDFopenMem:byteArr :len :nil];*/
     
     if(![[NSURL URLWithString:url] isFileURL]){
-        NSString* authToken = [self.data objectForKey:@"authToken"];
+        NSDictionary* header = [self.data objectForKey:@"headerParams"];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                         initWithURL:[NSURL
                                                      URLWithString:url]];
         
         [request setHTTPMethod:@"GET"];
-        if(authToken){
-            NSLog(@"authToken: %@", authToken);
+        if(header){
+            for(NSString *key in [header allKeys])
+            {
+                NSString *value = header[key]; // assuming the value is indeed a string
+                [request setValue:value forHTTPHeaderField:key];
+            }
         }
         //[request setValue:@"application/json"
         //forHTTPHeaderField:@"Content-type"];
@@ -95,9 +101,9 @@ bool b_outline;
         pdfConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     } else {
         /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"filePdfTest.pdf"];*/
-
+         NSString *documentsDirectory = [paths objectAtIndex:0];
+         NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"filePdfTest.pdf"];*/
+        
         NSData *data = [[NSFileManager defaultManager] contentsAtPath:[url stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
         int len = (int)[data length];
         
@@ -107,24 +113,69 @@ bool b_outline;
         NSLog(@"%d", result);
         if(result != err_ok && result != err_open){
             [delegate pdfChargeDidFailWithError:@"Error open mem stream pdf" andCode:(NSInteger) result];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
     
     //Open PDF from Mem demo
     /*char *path1 = [[[NSBundle mainBundle]pathForResource:@"PianoTerapeutico2" ofType:@"pdf"] UTF8String];
-    FILE *file1 = fopen(path1, "rb");
-    fseek(file1, 0, SEEK_END);
-    int filesize1 = ftell(file1);
-    fseek(file1, 0, SEEK_SET);
-    
-    buffer = malloc((filesize1)*sizeof(char));
-    fread(buffer, filesize1, 1, file1);
-    fclose(file1);
-    
-    [self PDFopenMem: buffer :filesize1 :nil];*/
+     FILE *file1 = fopen(path1, "rb");
+     fseek(file1, 0, SEEK_END);
+     int filesize1 = ftell(file1);
+     fseek(file1, 0, SEEK_SET);
+     
+     buffer = malloc((filesize1)*sizeof(char));
+     fread(buffer, filesize1, 1, file1);
+     fclose(file1);
+     
+     [self PDFopenMem: buffer :filesize1 :nil];*/
     
     //use PDFopenMem ,here need release memory
     //free(buffer);
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    if(![[NSURL URLWithString:url] isFileURL]){
+        NSDictionary* header = [self.data objectForKey:@"headerParams"];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
+                                        initWithURL:[NSURL
+                                                     URLWithString:url]];
+        
+        [request setHTTPMethod:@"GET"];
+        if(header){
+            for(NSString *key in [header allKeys])
+            {
+                NSString *value = header[key]; // assuming the value is indeed a string
+                [request setValue:value forHTTPHeaderField:key];
+            }
+        }
+        //[request setValue:@"application/json"
+        //forHTTPHeaderField:@"Content-type"];
+        
+        //NSString *jsonString = @"{}";
+        
+        //[request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)[jsonString length]] forHTTPHeaderField:@"Content-length"];
+        
+        //[request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+        receivedData = [[NSMutableData alloc] init];
+        pdfConn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    } else {
+        /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+         NSString *documentsDirectory = [paths objectAtIndex:0];
+         NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"filePdfTest.pdf"];*/
+        
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:[url stringByReplacingOccurrencesOfString:@"file://" withString:@""]];
+        int len = (int)[data length];
+        
+        Byte *byteData = (Byte*)malloc(len);
+        memcpy(byteData, [data bytes], len);
+        int result = [self PDFopenMem:byteData :len :nil];
+        NSLog(@"%d", result);
+        if(result != err_ok && result != err_open){
+            [delegate pdfChargeDidFailWithError:@"Error open mem stream pdf" andCode:(NSInteger) result];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -135,45 +186,56 @@ bool b_outline;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // do something with the data, for example log:
-    int len = (int)[receivedData length];
-    [delegate pdfChargeDidFinishLoading:len];
-    Byte *byteData = (Byte*)malloc(len);
-    memcpy(byteData, [receivedData bytes], len);
-    int result = [self PDFopenMem:byteData :len :nil];
-    NSLog(@"%d", result);
+    if (statusCode != 200)
+    {
+        [connection cancel];  // stop connecting; no more delegate messages
+        //NSLog(@"didReceiveResponse statusCode with %i", statusCode);
+        NSString * error = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
+        [delegate pdfChargeDidFailWithError:error andCode:statusCode];
+        
+        return;
+    } else {
+        // do something with the data, for example log:
+        int len = (int)[receivedData length];
+        [delegate pdfChargeDidFinishLoading:len];
+        Byte *byteData = (Byte*)malloc(len);
+        memcpy(byteData, [receivedData bytes], len);
+        int result = [self PDFopenMem:byteData :len :nil];
+        NSLog(@"%d", result);
+    }
 }
 
 /*- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    // Release the connection and the data object
-    // by setting the properties (declared elsewhere)
-    // to nil.  Note that a real-world app usually
-    // requires the delegate to manage more than one
-    // connection at a time, so these lines would
-    // typically be replaced by code to iterate through
-    // whatever data structures you are using.
-    pdfConn = nil;
-    receivedData = nil;
-    
-    // inform the user
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-    
-    //[delegate pdfChargedidFailWithError:[error localizedDescription] andCode:[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]];
-}*/
+ {
+ // Release the connection and the data object
+ // by setting the properties (declared elsewhere)
+ // to nil.  Note that a real-world app usually
+ // requires the delegate to manage more than one
+ // connection at a time, so these lines would
+ // typically be replaced by code to iterate through
+ // whatever data structures you are using.
+ pdfConn = nil;
+ receivedData = nil;
+ 
+ // inform the user
+ NSLog(@"Connection failed! Error - %@ %@",
+ [error localizedDescription],
+ [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+ 
+ //[delegate pdfChargedidFailWithError:[error localizedDescription] andCode:[[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]];
+ }*/
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     if ([response respondsToSelector:@selector(statusCode)])
     {
-        int statusCode = [((NSHTTPURLResponse *)response) statusCode];
-        if (statusCode == 404)
+        statusCode = [((NSHTTPURLResponse *)response) statusCode];
+        /*if (statusCode > 200)
         {
-            [connection cancel];  // stop connecting; no more delegate messages
+            //[connection cancel];  // stop connecting; no more delegate messages
             NSLog(@"didReceiveResponse statusCode with %i", statusCode);
-        }
-        if(statusCode != 200) [delegate pdfChargeDidFailWithError:@"Error chargin pdf" andCode:statusCode];
+            [delegate pdfChargeDidFailWithError:@"Error chargin pdf" andCode:statusCode];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }*/
     }
 }
 

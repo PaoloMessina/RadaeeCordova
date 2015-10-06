@@ -30,6 +30,7 @@
     NSString *url;
     NSMutableData *receivedData;
     void *buffer;
+    int statusCode;
 }
 
 @property (nonatomic, weak) IBOutlet UIView *container;

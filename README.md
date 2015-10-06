@@ -17,9 +17,9 @@ http://www.radaeepdf.com/ecommerce/technical-specification
 
 ### iOS
 
-	1. Add **#import "PDFVGlobal.h"** in your AppDelegate.h
-	2. Add **AppInit();** in **- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions** of your AppDelegate.m
-	3. Add **#import "NSObject+PerformBlock.h"** in you <Project_name>.pch file
+	1. Add #import "PDFVGlobal.h" in your AppDelegate.h
+	2. Add APP_Init(); in - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions of your AppDelegate.m
+	3. Add #import "NSObject+PerformBlock.h" in you <Project_name>.pch file
 
 ### Android
 
