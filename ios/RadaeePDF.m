@@ -167,6 +167,7 @@
 }
 
 - (void)pdfChargeDidFinishLoading:(int)lenght{
+    showPdfInProgress = NO;
     [self chargePdfSendResult:[CDVPluginResult
                                resultWithStatus: CDVCommandStatus_OK
                                messageAsString:@"Pdf Succesfully charged"]];
