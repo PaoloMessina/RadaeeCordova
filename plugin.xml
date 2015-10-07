@@ -27,7 +27,8 @@
 		<config-file target="AndroidManifest.xml" parent="application">
             <activity android:name="it.almaviva.cordovaplugins.ReaderActivity" 
             android:noHistory="true" 
-            android:configChanges="orientation|keyboardHidden|screenSize" >
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensor" >
             </activity>
         </config-file>
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
