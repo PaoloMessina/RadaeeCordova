@@ -89,8 +89,7 @@
         <source-file src="android/ViewLib/src/main/jniLibs/x86/librdpdf.so" target-dir="libs/x86" />
         <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="libs/x86_64" />
         
-        <!-- Import to not have compile error when the libs find the resources, the resources is not included -->
-        <!--<source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />-->
+        
         
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
@@ -104,8 +103,8 @@
         <source-file src="android/res/layout/dlg_outline.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/dlg_pswd.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/dlg_text.xml" target-dir="res/layout" />
-        <source-file src="android/res/layout/pdf_curl.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/item_outline.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_curl.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_fragment.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_layout.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_nav.xml" target-dir="res/layout" />
@@ -130,6 +129,37 @@
         <source-file src="android/res/raw/tinosbi" target-dir="res/raw" />
         <source-file src="android/res/raw/tinosi" target-dir="res/raw" />
         <source-file src="android/res/raw/umaps.dat" target-dir="res/raw" />
+        
+        <source-file src="android/res/drawable/bar_back.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_annot_ellipse.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_annot_ink.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_annot_line.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_annot_note.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_annot_rect.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_back.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_cancel.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_done.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_ink.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_left.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_outline.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_perform.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_remove.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_right.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_search.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_select.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_view_dual.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_view_single.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_view_vert.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/btn_view.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/file03.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/folder0.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/folder1.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/folder2.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/menu_back.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/pdf_custom_stamp.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/pt_end.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/pt_start.png" target-dir="res/drawable" />
+        
         
     </platform>
 
