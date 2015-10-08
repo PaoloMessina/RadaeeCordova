@@ -31,6 +31,7 @@
             android:screenOrientation="sensor" >
             </activity>
         </config-file>
+        <source-file src="path/to/your/layout/file.xml" target-dir="res/layout"/>
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
 		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
@@ -93,6 +94,7 @@
         
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
+        
     </platform>
 
 	<!-- ios -->
