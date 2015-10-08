@@ -112,7 +112,6 @@
         <source-file src="android/res/layout/pop_combo.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pop_edit.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pop_view.xml" target-dir="res/layout" />
-        <source-file src="android/res/layout/librdpdf.xml" target-dir="res/layout" />
         
         <source-file src="android/res/raw/arimo" target-dir="res/raw" />
         <source-file src="android/res/raw/arimob" target-dir="res/raw" />
