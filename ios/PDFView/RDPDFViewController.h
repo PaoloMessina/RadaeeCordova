@@ -33,6 +33,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
 @property (nonatomic, weak) IBOutlet UIButton *backButton;
 @property (nonatomic, weak) IBOutlet UIView *barView;
+@property (nonatomic, weak) IBOutlet UIView *barBottomLineView;
 
 @property (nonatomic, retain) NSDictionary *data;
 @property (nonatomic) Byte *byteData;

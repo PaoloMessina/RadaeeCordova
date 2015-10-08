@@ -54,6 +54,7 @@ bool b_outline;
         viewBounds.size.height = viewBounds.size.height - 20;
         self.container.frame = viewBounds;
     }
+    
     NSString *barColor = [self.data objectForKey:@"barColor"];
     if(barColor){
         if([barColor rangeOfString:@"#"].location != NSNotFound){
@@ -61,9 +62,21 @@ bool b_outline;
         }
         unsigned int baseValue;
         [[NSScanner scannerWithString:barColor] scanHexInt:&baseValue];
-        self.view.backgroundColor = UIColorFromRGB(baseValue);
+        //self.view.backgroundColor = UIColorFromRGB(baseValue);
+        self.view.backgroundColor = [UIColor blackColor];
         self.barView.backgroundColor = UIColorFromRGB(baseValue);
     }
+    
+    NSString *barBottomLineColor = [self.data objectForKey:@"barBottomLineColor"];
+    if(barBottomLineColor){
+        if([barBottomLineColor rangeOfString:@"#"].location != NSNotFound){
+            barBottomLineColor = [barBottomLineColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        }
+        unsigned int baseValue;
+        [[NSScanner scannerWithString:barBottomLineColor] scanHexInt:&baseValue];
+        self.barBottomLineView.backgroundColor = UIColorFromRGB(baseValue);
+    }
+    
     self.backButton.hidden = showClose;
     self.closeButton.hidden = !showClose;
     if(title) self.titleLabel.text = title;
@@ -307,6 +320,11 @@ bool b_outline;
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 @end
