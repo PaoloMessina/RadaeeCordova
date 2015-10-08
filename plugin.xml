@@ -31,6 +31,7 @@
             android:screenOrientation="sensor" >
             </activity>
         </config-file>
+        <!--<source-file src="android/NavBar/navigation_bar.xml" target-dir="res/layout"/>-->
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
 		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
@@ -89,10 +90,47 @@
         <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="libs/x86_64" />
         
         <!-- Import to not have compile error when the libs find the resources, the resources is not included -->
-        <source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />
+        <!--<source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />-->
         
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
+        
+        <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/bar_annot.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/bar_cmd.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/bar_find.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/bar_seek.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/dlg_note.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/dlg_outline.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/dlg_pswd.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/dlg_text.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_curl.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/item_outline.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_fragment.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_layout.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_nav.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pop_combo.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pop_edit.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pop_view.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/librdpdf.xml" target-dir="res/layout" />
+        
+        <source-file src="android/res/raw/arimo" target-dir="res/raw" />
+        <source-file src="android/res/raw/arimob" target-dir="res/raw" />
+        <source-file src="android/res/raw/arimobi" target-dir="res/raw" />
+        <source-file src="android/res/raw/arimoi" target-dir="res/raw" />
+        <source-file src="android/res/raw/cmaps.dat" target-dir="res/raw" />
+        <source-file src="android/res/raw/cmyk_rgb.dat" target-dir="res/raw" />
+        <source-file src="android/res/raw/cousine" target-dir="res/raw" />
+        <source-file src="android/res/raw/cousineb" target-dir="res/raw" />
+        <source-file src="android/res/raw/cousinebi" target-dir="res/raw" />
+        <source-file src="android/res/raw/cousinei" target-dir="res/raw" />
+        <source-file src="android/res/raw/rdf008" target-dir="res/raw" />
+        <source-file src="android/res/raw/rdf013" target-dir="res/raw" />
+        <source-file src="android/res/raw/tinos" target-dir="res/raw" />
+        <source-file src="android/res/raw/tinosb" target-dir="res/raw" />
+        <source-file src="android/res/raw/tinosbi" target-dir="res/raw" />
+        <source-file src="android/res/raw/tinosi" target-dir="res/raw" />
+        <source-file src="android/res/raw/umaps.dat" target-dir="res/raw" />
         
     </platform>
 
