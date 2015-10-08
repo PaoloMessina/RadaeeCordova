@@ -93,6 +93,9 @@
         
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
+        
+        <!-- Custom Navigation Bar Layout -->
+        <source-file src="android/NavBar/navigation_bar.xml" target-dir="res/layout"/>
     </platform>
 
 	<!-- ios -->

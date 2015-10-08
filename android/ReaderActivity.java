@@ -2,12 +2,16 @@ package it.almaviva.cordovaplugins;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.common.io.ByteStreams;
 import com.radaee.pdf.Document;
@@ -42,7 +46,13 @@ public class ReaderActivity extends Activity {
         //otherwise, APP shall destroy this Activity and re-create a new Activity when rotate.
         Global.Init(this);
 
-        ActionBar bar = getActionBar();
+        //ActionBar bar = getActionBar();
+        final ActionBar bar = getActionBar();
+    	bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+    	LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    	View view = inflater.inflate(R.layout.custom_action_bar, null);
+    	bar.setCustomView(view, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    	bar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         // Get parameters from JS
         Intent startIntent = getIntent();
@@ -51,7 +61,7 @@ public class ReaderActivity extends Activity {
         try { params = new JSONObject(paramStr); }
         catch (JSONException e) { params = new JSONObject(); }
 
-        String barColor = params.optString("barColor");
+        /*String barColor = params.optString("barColor");
         if(barColor != null && barColor.length() > 0){
             barColor = barColor.startsWith("#") ? barColor : "#" + barColor;
             bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(barColor)));
@@ -68,7 +78,7 @@ public class ReaderActivity extends Activity {
         if(!showClose){
             bar.setHomeButtonEnabled(true);
             bar.setDisplayHomeAsUpEnabled(true);
-        }
+        }*/
 
 
         m_vPDF = new ReaderController(this);
