@@ -89,7 +89,7 @@
         <source-file src="android/ViewLib/src/main/jniLibs/x86/librdpdf.so" target-dir="libs/x86" />
         <source-file src="android/ViewLib/src/main/jniLibs/x86_64/librdpdf.so" target-dir="libs/x86_64" />
         
-        
+        <source-file src="android/ViewLib/R.java" target-dir="src/com/radaee/viewlib" />
         
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
