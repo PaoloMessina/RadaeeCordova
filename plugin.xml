@@ -30,11 +30,13 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensor" >
             </activity>
+            <meta-data android:name="DefaultFont" android:value="Roboto-Black.ttf" />
         </config-file>
-        <!--<source-file src="android/NavBar/navigation_bar.xml" target-dir="res/layout"/>-->
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
 		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
+        <source-file src="android/CustomFontButton.java" target-dir="src/it/almaviva/cordovaplugins" />
+        <source-file src="android/CustomFontTextView.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
         
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Obj.java" target-dir="src/com/radaee/pdf/adv" />
@@ -92,6 +94,7 @@
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         
+        <source-file src="android/res/layout/navigation_bar.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_annot.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_cmd.xml" target-dir="res/layout" />
@@ -128,6 +131,7 @@
         <source-file src="android/res/raw/tinosi" target-dir="res/raw" />
         <source-file src="android/res/raw/umaps.dat" target-dir="res/raw" />
         
+        <source-file src="android/res/drawable/bar_back_image.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/bar_back.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ellipse.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ink.png" target-dir="res/drawable" />
@@ -158,6 +162,8 @@
         <source-file src="android/res/drawable/pt_end.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/pt_start.png" target-dir="res/drawable" />
         
+        <source-file src="android/fonts/Roboto-Black.ttf" target-dir="assets/fonts" />
+        <source-file src="android/res/values/style_bar.xml" target-dir="res/values" />
         
     </platform>
 
