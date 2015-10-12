@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,12 @@ import com.radaee.pdf.Global;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import it.almaviva.radaeepdfdemo.R;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by pmessina on 30/07/15.
@@ -43,6 +49,7 @@ public class ReaderActivity extends Activity {
     private ReaderController m_vPDF = null;
     private Document doc = new Document();
     private byte[] data;
+    private String titleString;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -95,7 +102,7 @@ public class ReaderActivity extends Activity {
                 }
             }
 
-            String titleString = params.optString("title");
+            titleString = params.optString("title");
             String titleTextColor = params.optString("titleTextColor");
             if(titleString != null && titleString.length() > 0){
                 int titleSize = 16;
@@ -160,11 +167,30 @@ public class ReaderActivity extends Activity {
             btnRight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ReaderActivity.this, "Prova download", Toast.LENGTH_SHORT).show();
 
+
+                    // create temporary dictionary, to save media or attachment data.
+                    File sdDir = Environment.getExternalStorageDirectory();
+                    File ftmp;
+                    if (sdDir != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                        ftmp = new File(sdDir, "salutile");
+                    else
+                        ftmp = new File(ReaderActivity.this.getFilesDir(), "salutile");
+                    if (!ftmp.exists())// not exist? make it!
+                        ftmp.mkdir();
+                    String tmp_path = ftmp.getPath();
+                    String fileName = (titleString != null && titleString.length() >= 0 ) ?  titleString.trim() + ".pdf" : ("referto_" + new Date().getTime()+ ".pdf" );
+                    File outFile = new File(tmp_path + "/" + fileName);
+                    try {
+                        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outFile));
+                        bos.write(ReaderActivity.this.data);
+                        bos.flush();
+                        bos.close();
+                    } catch (IOException e) {
+                        Toast.makeText(ReaderActivity.this, "Errore durante il salvataggio", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-
 
             actionBar.setCustomView(actionBarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
