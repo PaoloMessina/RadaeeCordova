@@ -31,6 +31,10 @@
             android:screenOrientation="sensor" >
             </activity>
             <meta-data android:name="DefaultFont" android:value="Roboto-Black.ttf" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="manifest">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
 		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />

@@ -31,7 +31,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -181,11 +180,13 @@ public class ReaderActivity extends Activity {
                     String tmp_path = ftmp.getPath();
                     String fileName = (titleString != null && titleString.length() >= 0 ) ?  titleString.trim() + ".pdf" : ("referto_" + new Date().getTime()+ ".pdf" );
                     File outFile = new File(tmp_path + "/" + fileName);
+
                     try {
-                        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outFile));
-                        bos.write(ReaderActivity.this.data);
-                        bos.flush();
-                        bos.close();
+                        if(!outFile.exists())outFile.createNewFile();
+                        BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(outFile));
+                        fOut.write(ReaderActivity.this.data);
+                        fOut.flush();
+                        fOut.close();
                     } catch (IOException e) {
                         Toast.makeText(ReaderActivity.this, "Errore durante il salvataggio", Toast.LENGTH_SHORT).show();
                     }
@@ -194,8 +195,9 @@ public class ReaderActivity extends Activity {
 
             actionBar.setCustomView(actionBarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            Toolbar parent =(Toolbar) actionBarView.getParent();
+
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Toolbar parent =(Toolbar) actionBarView.getParent();
                 parent.setContentInsetsAbsolute(0,0);
                 actionBar.setElevation(0);
             }
