@@ -42,7 +42,7 @@ module.exports = function (ctx) {
     
     function isPresentString(filename, stringToSearch){
     	var data = fs.readFileSync(filename, 'utf8');
-    	return fs.search(stringToSearch) >= 0;
+    	return data.search(stringToSearch) >= 0;
     }
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/ios');
