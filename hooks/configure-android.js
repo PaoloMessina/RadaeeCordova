@@ -19,7 +19,7 @@ module.exports = function (ctx) {
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
-    var data = fs.readFileSync(filename, 'utf8');
+    var data = fs.readFileSync(ourconfigfile, 'utf8');
     var replaceWith = data;
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
