@@ -17,15 +17,10 @@ module.exports = function (ctx) {
         fs.writeFileSync(filename, result, 'utf8');
     }
     
-    var cordova_util = ctx.requireCordovaModule("cordova-lib/src/cordova/util"),
-        ConfigParser = ctx.requireCordovaModule("cordova-lib/src/configparser/ConfigParser")
-        projectRoot = cordova_util.isCordova(),
-        xml = cordova_util.projectConfig(projectRoot),
-        cfg = new ConfigParser(xml);
-    
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
-    var replaceWith = cfg.widget.id;
+    var data = fs.readFileSync(filename, 'utf8');
+    var replaceWith = data;
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
     var fileImportR = [
@@ -46,7 +41,7 @@ module.exports = function (ctx) {
     console.log('*****************************************');
     console.log('*       Inject: ' + replaceWith + '    *');
     
-    fileImportR.forEach(function(val) {
+    /*fileImportR.forEach(function(val) {
     	var fullfilename = path.join(platformRoot, val.filePath);
     	console.log('*  Inject in file: ' + fullfilename + ' the import statemet: ' + val.importStatement + '  *');
     	if (fs.existsSync(fullfilename)) {
@@ -54,5 +49,5 @@ module.exports = function (ctx) {
     	} else {
             console.error('* missing file:', fullfilename);
         }
-    });
+    });*/
 }
