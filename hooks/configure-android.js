@@ -41,7 +41,7 @@ module.exports = function (ctx) {
     console.log('*****************************************');
     console.log('*       Inject: ' + replaceWith + '    *');
     
-    /*fileImportR.forEach(function(val) {
+    fileImportR.forEach(function(val) {
     	var fullfilename = path.join(platformRoot, val.filePath);
     	console.log('*  Inject in file: ' + fullfilename + ' the import statemet: ' + val.importStatement + '  *');
     	if (fs.existsSync(fullfilename)) {
@@ -49,5 +49,5 @@ module.exports = function (ctx) {
     	} else {
             console.error('* missing file:', fullfilename);
         }
-    });*/
+    });
 }
