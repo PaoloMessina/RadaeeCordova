@@ -175,7 +175,7 @@
         <source-file src="android/fonts/Roboto-Black.ttf" target-dir="assets/fonts" />
         <source-file src="android/res/values/style_bar.xml" target-dir="res/values" />
         
-        <hook type="after_prepare" src="hook/configure-android.js"/>
+        <hook type="after_prepare" src="hooks/configure-android.js"/>
         
     </platform>
 
