@@ -34,9 +34,9 @@ module.exports = function (ctx) {
      * return the config.xml project name
     */
     function getConfigName(configString){
-    	var startCut = cfg.indexOf("<name>") + 6;
-		var stopCut = cfg.indexOf("</name>");
-		var name = cfg.slice(startCut, stopCut);
+    	var startCut = configString.indexOf("<name>") + 6;
+		var stopCut = configString.indexOf("</name>");
+		var name = configString.slice(startCut, stopCut);
 		return name;
     }
     
