@@ -17,27 +17,16 @@ module.exports = function (ctx) {
         fs.writeFileSync(filename, result, 'utf8');
     }
     
-    function loadConfigXMLDoc(filePath) {
-    	var xml2js = require('xml2js');
-    	var json = "";
-    	try {
-        	var fileData = fs.readFileSync(filePath, 'ascii');
-        	var parser = new xml2js.Parser();
-        	parser.parseString(fileData.substring(0, fileData.length), function (err, result) {
-         	   //console.log("config.xml as JSON", JSON.stringify(result, null, 2));
-         	   json = result;
-       	 	});
-       		console.log("File '" + filePath + "' was successfully read.");
-        	return json;
-    	} catch (ex) {
-        	console.log(ex)
-    	}
-	}
+    var cordova_util = context.requireCordovaModule("cordova-lib/src/cordova/util"),
+        ConfigParser = context.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
+        platforms = context.requireCordovaModule("cordova-lib/src/cordova/platforms"),
+        projectRoot = cordova_util.isCordova(),
+        xml = cordova_util.projectConfig(projectRoot),
+        cfg = new ConfigParser(xml);
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
-	var rawJSON = loadConfigXMLDoc(configXMLPath);
-    var replaceWith = rawJSON.widget.$.id;
+    var replaceWith = cfg.widget.$.id;
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
     var fileImportR = [
