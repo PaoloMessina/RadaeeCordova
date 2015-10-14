@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pdf_popup_outcome"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C0000000"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
+    android:paddingTop="180dip"
+    android:paddingBottom="180dip">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:background="@drawable/pdf_popup_background">
+
+        <it.almaviva.cordovaplugins.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight=".25"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dip"
+            android:text="Avviso"
+            android:textColor="#125A96"
+            android:textSize="18sp"/>
+
+        <it.almaviva.cordovaplugins.CustomFontTextView
+            android:id="@+id/pdf_popup_outcome_body"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight=".50"
+            android:gravity="center"
+            android:text="Il referto è stato salvato nella cartella salutile"
+            android:textColor="#4D4D4D"
+            android:textSize="16sp"
+            android:background="@drawable/pdf_popup_inner_border"/>
+
+        <it.almaviva.cordovaplugins.CustomFontTextView
+            android:id="@+id/pdf_popup_outcome_click"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight=".25"
+            android:gravity="center"
+            android:text="CHIUDI"
+            android:textColor="#125A96"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</LinearLayout>

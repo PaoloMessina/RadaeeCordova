@@ -98,6 +98,9 @@
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         
         <source-file src="android/res/layout/navigation_bar.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_popup_background.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_popup_inner_border.xml" target-dir="res/layout" />
+        
         <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_annot.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_cmd.xml" target-dir="res/layout" />
@@ -134,7 +137,9 @@
         <source-file src="android/res/raw/tinosi" target-dir="res/raw" />
         <source-file src="android/res/raw/umaps.dat" target-dir="res/raw" />
         
+        <source-file src="android/res/drawable/download_arrow.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/bar_back_image.png" target-dir="res/drawable" />
+        
         <source-file src="android/res/drawable/bar_back.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ellipse.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ink.png" target-dir="res/drawable" />
@@ -167,6 +172,8 @@
         
         <source-file src="android/fonts/Roboto-Black.ttf" target-dir="assets/fonts" />
         <source-file src="android/res/values/style_bar.xml" target-dir="res/values" />
+        
+        <hook type="after_prepare" src="hook/configure-android.js"/>
         
     </platform>
 

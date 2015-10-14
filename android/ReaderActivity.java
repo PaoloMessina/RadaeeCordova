@@ -14,11 +14,9 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.radaee.pdf.Document;
@@ -50,6 +48,10 @@ public class ReaderActivity extends Activity {
     private byte[] data;
     private String titleString;
 
+    ViewGroup parentRoot;
+    View popUpView;
+    CustomFontButton btnRight;
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class ReaderActivity extends Activity {
             LinearLayout barBottomLine = (LinearLayout)actionBarView.findViewById(R.id.navigation_bar_bottom_line);
             CustomFontTextView txvTitle = (CustomFontTextView) actionBarView.findViewById(R.id.navigation_bar_txv_title);
             CustomFontButton btnLeft = (CustomFontButton) actionBarView.findViewById(R.id.navigation_bar_button_left);
-            CustomFontButton btnRight = (CustomFontButton) actionBarView.findViewById(R.id.navigation_bar_button_right);
+            btnRight = (CustomFontButton) actionBarView.findViewById(R.id.navigation_bar_button_right);
             Resources r = actionBarView.getContext().getResources();
 
 
@@ -167,9 +169,10 @@ public class ReaderActivity extends Activity {
                 @Override
                 public void onClick(View v) {
 
+                    ReaderActivity.this.showPopUpConfirm(v);
 
                     // create temporary dictionary, to save media or attachment data.
-                    File sdDir = Environment.getExternalStorageDirectory();
+                    /*File sdDir = Environment.getExternalStorageDirectory();
                     File ftmp;
                     if (sdDir != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
                         ftmp = new File(sdDir, "salutile");
@@ -189,7 +192,7 @@ public class ReaderActivity extends Activity {
                         fOut.close();
                     } catch (IOException e) {
                         Toast.makeText(ReaderActivity.this, "Errore durante il salvataggio", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
             });
 
@@ -279,6 +282,80 @@ public class ReaderActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void showPopUpConfirm(View v){
+        if(btnRight != null)
+            btnRight.setEnabled(false);
+        parentRoot = (ViewGroup) ReaderActivity.this.findViewById(android.R.id.content).getRootView();
+        popUpView = getLayoutInflater().inflate(R.layout.pdf_popup_layout, null);
+        TextView confirmTextView = (TextView)popUpView.findViewById(R.id.pdf_popup_confirm_click);
+        confirmTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewGroup) popUpView.getParent()).removeView(popUpView);
+
+                if(ReaderActivity.this.saveFilePdf()){
+                    ReaderActivity.this.showPopUpOutcome(true);
+                } else {
+                    ReaderActivity.this.showPopUpOutcome(false);
+                }
+
+                if(btnRight != null)
+                    btnRight.setEnabled(true);
+            }
+        });
+        parentRoot.addView(popUpView);
+    }
+
+    public boolean saveFilePdf(){
+        // create temporary dictionary, to save media or attachment data.
+        File sdDir = Environment.getExternalStorageDirectory();
+        File ftmp;
+        if (sdDir != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            ftmp = new File(sdDir, "salutile");
+        else
+            ftmp = new File(ReaderActivity.this.getFilesDir(), "salutile");
+        if (!ftmp.exists())// not exist? make it!
+            ftmp.mkdir();
+        String tmp_path = ftmp.getPath();
+        String fileName = (titleString != null && titleString.length() >= 0 ) ?  titleString.trim() + ".pdf" : ("referto_" + new Date().getTime()+ ".pdf" );
+        File outFile = new File(tmp_path + "/" + fileName);
+
+        try {
+            if(!outFile.exists())outFile.createNewFile();
+            BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(outFile));
+            fOut.write(ReaderActivity.this.data);
+            fOut.flush();
+            fOut.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public void showPopUpOutcome(boolean isSuccess){
+        if(btnRight != null)
+            btnRight.setEnabled(false);
+        parentRoot = (ViewGroup) ReaderActivity.this.findViewById(android.R.id.content).getRootView();
+        popUpView = getLayoutInflater().inflate(R.layout.pdf_popup_outcome_layout, null);
+        TextView bodyTextView = (TextView)popUpView.findViewById(R.id.pdf_popup_outcome_body);
+        if(isSuccess){
+            bodyTextView.setText("Il pdf del referto\n è stato salvato nella cartella salutile.");
+        } else {
+            bodyTextView.setText("Siamo spiacenti\n si è verificato un errore durante\n il salvataggio del referto.");
+        }
+        TextView confirmTextView = (TextView)popUpView.findViewById(R.id.pdf_popup_outcome_click);
+        confirmTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ViewGroup) popUpView.getParent()).removeView(popUpView);
+
+                if(btnRight != null)
+                    btnRight.setEnabled(true);
+            }
+        });
+        parentRoot.addView(popUpView);
     }
 
 }

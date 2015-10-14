@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pdf_popup_confirm"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C0000000"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
+    android:paddingTop="100dip"
+    android:paddingBottom="80dip">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:orientation="vertical"
+            android:background="@drawable/pdf_popup_background">
+
+            <it.almaviva.cordovaplugins.CustomFontTextView
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight=".15"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:text="Salva il PDF"
+                android:textColor="#125A96"
+                android:textSize="18sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight=".70"
+                android:orientation="vertical"
+                android:background="@drawable/pdf_popup_inner_border"
+                android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight=".40"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="70dip"
+                            android:layout_height="70dip"
+                            android:src="@drawable/download_arrow"
+                            android:scaleType="fitXY"
+                            />
+                    </LinearLayout>
+
+                    <it.almaviva.cordovaplugins.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight=".15"
+                        android:gravity="center"
+                        android:text="RICORDA"
+                        android:textColor="#4D4D4D"
+                        android:textSize="18sp" />
+
+                    <it.almaviva.cordovaplugins.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight=".45"
+                        android:gravity="center"
+                        android:text="Stai salvando il tuo documento fuori\ndall'app SALUTILE referti.\nConserva i tuoi documenti con la\nmassima riservatezza"
+                        android:textColor="#4D4D4D"/>
+
+            </LinearLayout>
+
+            <it.almaviva.cordovaplugins.CustomFontTextView
+                android:id="@+id/pdf_popup_confirm_click"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight=".15"
+                android:gravity="center"
+                android:text="PROSEGUI"
+                android:textColor="#125A96"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+</LinearLayout>
