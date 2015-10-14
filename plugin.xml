@@ -243,6 +243,8 @@
         <resource-file src="ios/fdat/13" />
         <resource-file src="ios/fdat/argbsn00lp.ttf" />
         
+        <hook type="before_compile" src="hooks/configure-ios.js"/>
+        
     </platform>
 
 </plugin>
