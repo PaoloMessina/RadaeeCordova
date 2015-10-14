@@ -25,7 +25,7 @@ module.exports = function (ctx) {
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
-    var replaceWith = cfg.widget.$.id;
+    var replaceWith = cfg.widget.id;
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
     var fileImportR = [
