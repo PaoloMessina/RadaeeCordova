@@ -17,9 +17,9 @@ module.exports = function (ctx) {
         fs.writeFileSync(filename, result, 'utf8');
     }
     
-    var cordova_util = context.requireCordovaModule("cordova-lib/src/cordova/util"),
-        ConfigParser = context.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
-        platforms = context.requireCordovaModule("cordova-lib/src/cordova/platforms"),
+    var cordova_util = ctx.requireCordovaModule("cordova-lib/src/cordova/util"),
+        ConfigParser = ctx.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
+        platforms = ctx.requireCordovaModule("cordova-lib/src/cordova/platforms"),
         projectRoot = cordova_util.isCordova(),
         xml = cordova_util.projectConfig(projectRoot),
         cfg = new ConfigParser(xml);
