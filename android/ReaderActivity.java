@@ -31,6 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
+import it.almaviva.radaeepdfdemo.R;
+
 /**
  * Created by pmessina on 30/07/15.
  */

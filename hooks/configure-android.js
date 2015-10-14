@@ -20,19 +20,19 @@ module.exports = function (ctx) {
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
     var data = fs.readFileSync(ourconfigfile, 'utf8');
-    var replaceWith = data;
+    var replaceWith = "it.almaviva.radaeepdfdemo.R;";
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
     var fileImportR = [
-    	{filePath: 'src/com/radaee/cordova/Global.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/reader/PDFCurlViewAct.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/reader/PDFLayoutView.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/reader/PDFNavAct.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/reader/PDFViewAct.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/reader/PDFViewController.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/util/OutlineListAdt.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/com/radaee/util/PDFGridItem.java', importStatement: 'import com.radaee.viewlib.R;'},
-    	{filePath: 'src/it/almaviva/cordovaplugins/ReaderActivity.java', importStatement: 'import it.almaviva.radaeepdfdemo.R;;'}
+    	{filePath: 'src/com/radaee/cordova/Global.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/reader/PDFCurlViewAct.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/reader/PDFLayoutView.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/reader/PDFNavAct.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/reader/PDFViewAct.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/reader/PDFViewController.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/util/OutlineListAdt.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/com/radaee/util/PDFGridItem.java', importStatement: 'com.radaee.viewlib.R;'},
+    	{filePath: 'src/it/almaviva/cordovaplugins/ReaderActivity.java', importStatement: 'it.almaviva.radaeepdfdemo.R;'}
     ];
 
 
