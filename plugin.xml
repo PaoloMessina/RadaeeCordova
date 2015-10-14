@@ -98,7 +98,7 @@
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         
         <source-file src="android/res/layout/navigation_bar.xml" target-dir="res/layout" />
-        <source-file src="android/res/layout/pdf_popup_layout.xml.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_popup_layout.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_popup_outcome_layout.xml" target-dir="res/layout" />
         
         <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
