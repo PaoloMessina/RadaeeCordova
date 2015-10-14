@@ -18,22 +18,14 @@ module.exports = function (ctx) {
     }
     
     function getConfidId(configString){
-    		parseXml = function(xmlStr) {
-        		return ( new DOMParser() ).parseFromString(xmlStr, "text/xml");
-    		};
-
-
-		var xmlDoc = parseXml(configString);
-		if (xmlDoc) {
-    		return xmlDoc.documentElement.getAttribute("id");
-		}
+    	var packageName = "it.almaviva.radaeepdfdemo";
+    	return packageName;
     }
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
     var configXMLPath = "config.xml";
     var data = fs.readFileSync(ourconfigfile, 'utf8');
     
-    //var replaceWith = "it.almaviva.radaeepdfdemo.R;";
     var replaceWith = getConfidId(data) + ".R";
     
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
