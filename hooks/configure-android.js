@@ -18,8 +18,15 @@ module.exports = function (ctx) {
     }
     
     function getConfidId(configString){
-    	var packageName = "it.almaviva.radaeepdfdemo";
-    	return packageName;
+    	//var packageName = "it.almaviva.radaeepdfdemo";
+    	//return packageName;
+    	
+    	var rootdir = process.argv[2];
+    	if (rootdir) {
+    		var ourconfigfile = path.join(rootdir, "project.json");
+    		var configobj = JSON.parse(fs.readFileSync(ourconfigfile, "utf8"));
+    		console.log("TEST: " + configobj["android"].app_id);
+    	}
     }
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
