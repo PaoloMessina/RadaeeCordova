@@ -18,22 +18,12 @@ module.exports = function (ctx) {
     }
     
     function getConfidId(configString){
-    	if (window.DOMParser) {
     		parseXml = function(xmlStr) {
-        		return ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml");
+        		return ( new DOMParser() ).parseFromString(xmlStr, "text/xml");
     		};
-		} else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
-    		parseXml = function(xmlStr) {
-        		var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
-        		xmlDoc.async = "false";
-        		xmlDoc.loadXML(xmlStr);
-        		return xmlDoc;
-    		};
-		} else {
-    		parseXml = function() { return null; }
-		}
 
-		var xmlDoc = parseXml(config);
+
+		var xmlDoc = parseXml(configString);
 		if (xmlDoc) {
     		return xmlDoc.documentElement.getAttribute("id");
 		}
