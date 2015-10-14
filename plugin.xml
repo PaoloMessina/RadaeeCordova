@@ -98,8 +98,8 @@
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         
         <source-file src="android/res/layout/navigation_bar.xml" target-dir="res/layout" />
-        <source-file src="android/res/layout/pdf_popup_background.xml" target-dir="res/layout" />
-        <source-file src="android/res/layout/pdf_popup_inner_border.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_popup_layout.xml.xml" target-dir="res/layout" />
+        <source-file src="android/res/layout/pdf_popup_outcome_layout.xml" target-dir="res/layout" />
         
         <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_annot.xml" target-dir="res/layout" />
@@ -139,6 +139,8 @@
         
         <source-file src="android/res/drawable/download_arrow.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/bar_back_image.png" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/pdf_popup_background.xml" target-dir="res/drawable" />
+        <source-file src="android/res/drawable/pdf_popup_inner_border.xml" target-dir="res/drawable" />
         
         <source-file src="android/res/drawable/bar_back.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ellipse.png" target-dir="res/drawable" />
