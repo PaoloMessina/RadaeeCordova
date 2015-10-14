@@ -21,12 +21,13 @@ module.exports = function (ctx) {
     	//var packageName = "it.almaviva.radaeepdfdemo";
     	//return packageName;
     	
-    	var rootdir = process.argv[2];
-    	if (rootdir) {
-    		var ourconfigfile = path.join(rootdir, "project.json");
-    		var configobj = JSON.parse(fs.readFileSync(ourconfigfile, "utf8"));
-    		console.log("TEST: " + configobj["android"].app_id);
-    	}
+    	var firstCut = configString.split(" id=");
+		//console.log(firstCut);
+		var secondCut = firstCut[1].replace(/"/g,"");
+		//console.log(secondCut);
+		var id = secondCut.slice(0,secondCut.indexOf(" "));
+		//console.log(id);
+		return id;
     }
     
     var ourconfigfile = path.join(ctx.opts.projectRoot, "config.xml");
