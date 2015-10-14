@@ -53,7 +53,7 @@ module.exports = function (ctx) {
     var srcNativeRoot = path.join(platformRoot, projectName);
     
     var fileImportR = [
-    	{filePath: pchFileName, toReplace: '#ifdef __OBJC__', replecement: '#ifdef __OBJC__\n#import "NSObject+PerformBlock.h"'}/*,
+    	{filePath: pchFileName, toReplace: '#ifdef __OBJC__', replecement: '#ifdef __OBJC__\n\t#import "NSObject+PerformBlock.h"'}/*,
     	{filePath: 'Classes/AppDelegate.h', toReplace: 'com.radaee.viewlib.R', replecement: ''},
     	{filePath: 'Classes/AppDelegate.m', toReplace: 'com.radaee.viewlib.R', replecement: ''}*/
     ];
