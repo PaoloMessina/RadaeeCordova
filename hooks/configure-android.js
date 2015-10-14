@@ -18,8 +18,7 @@ module.exports = function (ctx) {
     }
     
     var cordova_util = ctx.requireCordovaModule("cordova-lib/src/cordova/util"),
-        ConfigParser = ctx.requireCordovaModule("cordova-lib/src/configparser/ConfigParser"),
-        platforms = ctx.requireCordovaModule("cordova-lib/src/cordova/platforms"),
+        ConfigParser = ctx.requireCordovaModule("cordova-lib/src/configparser/ConfigParser")
         projectRoot = cordova_util.isCordova(),
         xml = cordova_util.projectConfig(projectRoot),
         cfg = new ConfigParser(xml);
