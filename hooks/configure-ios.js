@@ -40,7 +40,7 @@ module.exports = function (ctx) {
 		return name;
     }
     
-    function isPresentString(fileName, stringToSearch){
+    function isPresentString(filename, stringToSearch){
     	var data = fs.readFileSync(filename, 'utf8');
     	return fs.search(stringToSearch) >= 0;
     }
