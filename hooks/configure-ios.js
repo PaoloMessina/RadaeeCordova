@@ -13,8 +13,10 @@ module.exports = function (ctx) {
 
     function replace_string_in_file(filename, to_replace, replace_with) {
         var data = fs.readFileSync(filename, 'utf8');
+        console.log(new RegExp(to_replace, "g"));
         var result = data.replace(new RegExp(to_replace, "g"), replace_with);
-        fs.writeFileSync(filename, result, 'utf8');
+        console.log(result);
+        //fs.writeFileSync(filename, result, 'utf8');
     }
     
     /**
@@ -42,8 +44,6 @@ module.exports = function (ctx) {
     
     function isPresentString(filename, stringToSearch){
     	var data = fs.readFileSync(filename, 'utf8');
-    	console.log(data);
-    	console.log("\n\n\t\t FIND RESULT: " + data.search(stringToSearch) >= 0 + '\n\n');
     	return data.search(stringToSearch) >= 0;
     	
     }
