@@ -58,7 +58,7 @@ module.exports = function (ctx) {
     var fileImportR = [
     	{filePath: pchFileName, toReplace: '#ifdef __OBJC__\n    ', replecement: '#ifdef __OBJC__\n    #import "NSObject+PerformBlock.h"\n    '},
     	{filePath: 'Classes/AppDelegate.h', toReplace: '#import <UIKit/UIKit.h>\n', replecement: '#import <UIKit/UIKit.h>\n#import "PDFVGlobal.h"'},
-    	{filePath: 'Classes/AppDelegate.m', toReplace: 'CGRect screenBounds = [[UIScreen mainScreen] bounds];\n', replecement: 'CGRect screenBounds = [[UIScreen mainScreen] bounds];\n    APP_Init();\n'}
+    	{filePath: 'Classes/AppDelegate.m', toReplace: 'didFinishLaunchingWithOptions', replecement: 'didFinishLaunchingWithOptionsReplaced'}
     ];
 
 
