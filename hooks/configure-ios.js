@@ -54,8 +54,8 @@ module.exports = function (ctx) {
     
     var fileImportR = [
     	{filePath: pchFileName, toReplace: '#ifdef __OBJC__', replecement: '#ifdef __OBJC__\n\t#import "NSObject+PerformBlock.h"'},
-    	{filePath: 'Classes/AppDelegate.h', toReplace: '#import <UIKit/UIKit.h>', replecement: '#import <UIKit/UIKit.h>\n#import "PDFVGlobal.h"'},
-    	{filePath: 'Classes/AppDelegate.m', toReplace: '- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions\n{\n\t', replecement: '- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions\n{\n\tAPP_Init();\n\t'}
+    	{filePath: 'Classes/AppDelegate.h', toReplace: '#import <UIKit/UIKit.h>\n', replecement: '#import <UIKit/UIKit.h>\n#import "PDFVGlobal.h"'},
+    	{filePath: 'Classes/AppDelegate.m', toReplace: 'didFinishLaunchingWithOptions:(NSDictionary*)launchOptions\n{\n\t', replecement: 'didFinishLaunchingWithOptions:(NSDictionary*)launchOptions\n{\n\tAPP_Init();\n\t'}
     ];
 
 
