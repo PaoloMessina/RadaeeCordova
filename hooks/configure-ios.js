@@ -13,10 +13,8 @@ module.exports = function (ctx) {
 
     function replace_string_in_file(filename, to_replace, replace_with) {
         var data = fs.readFileSync(filename, 'utf8');
-        console.log(new RegExp(to_replace, "g"));
         var result = data.replace(new RegExp(to_replace, "g"), replace_with);
-        console.log(result);
-        //fs.writeFileSync(filename, result, 'utf8');
+        fs.writeFileSync(filename, result, 'utf8');
     }
     
     /**
