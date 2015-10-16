@@ -64,7 +64,7 @@
                         android:gravity="center"
                         android:text="Stai salvando il tuo documento fuori\ndall'app SALUTILE referti.\nConserva i tuoi documenti con la\nmassima riservatezza"
                         android:textColor="#4D4D4D" 
-                        font:"Roboto-Regular.ttf" />
+                        font="Roboto-Regular.ttf" />
 
             </LinearLayout>
 

@@ -36,7 +36,7 @@
             android:textColor="#4D4D4D"
             android:textSize="16sp"
             android:background="@drawable/pdf_popup_inner_border"
-            font:"Roboto-Regular.ttf" />
+            font="Roboto-Regular.ttf" />
 
         <it.almaviva.cordovaplugins.CustomFontTextView
             android:id="@+id/pdf_popup_outcome_click"
