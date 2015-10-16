@@ -210,12 +210,17 @@
         <framework src="QuartzCore.framework" />
         <framework src="libc++.dylib" />
         
+        <!-- Plugin sources and resources -->
         <source-file src="ios/RadaeePDF.m" />
         <header-file src="ios/RadaeePDF.h" />
+        <source-file src="ios/PDFView/RDPDFViewController.m" />
+        <header-file src="ios/PDFView/RDPDFViewController.h" />
+        <resource-file src="ios/PDFView/RDPDFViewController.xib" />
+        <resource-file src="ios/Resources/backImage.png" />
         
+        <!-- Radaee sources -->
         <source-file src="ios/NSObject/NSObject+PerformBlock.m" />
         <header-file src="ios/NSObject/NSObject+PerformBlock.h" />
-        
         <source-file src="ios/PDFView/PDFReflowView.m" />
         <header-file src="ios/PDFView/PDFReflowView.h" />
         <source-file src="ios/PDFView/PDFThumbView.m" />
@@ -234,19 +239,14 @@
         <header-file src="ios/PDFView/PDFVPage.h" />
         <source-file src="ios/PDFView/PDFVThread.m" />
         <header-file src="ios/PDFView/PDFVThread.h" />
-        <source-file src="ios/PDFView/RDPDFViewController.m" />
-        <header-file src="ios/PDFView/RDPDFViewController.h" />
-        <resource-file src="ios/PDFView/RDPDFViewController.xib" />
-        <resource-file src="ios/Resources/backImage.png" />
-        
         <source-file src="ios/PDFLib/PDFObjc.m" />
         <header-file src="ios/PDFLib/PDFObjc.h" />
         <header-file src="ios/PDFLib/PDFIOS.h" />
         <source-file src="ios/PDFLib/libRDPDFLib.a" framework="true" />
         
+        <!-- Radaee resources -->
         <resource-file src="ios/cmaps/cmaps.dat" />
         <resource-file src="ios/cmaps/umaps.dat" />
-        
         <resource-file src="ios/fdat/00" />
         <resource-file src="ios/fdat/01" />
         <resource-file src="ios/fdat/02" />
@@ -263,6 +263,7 @@
         <resource-file src="ios/fdat/13" />
         <resource-file src="ios/fdat/argbsn00lp.ttf" />
         
+        <!-- fonts -->
         <resource-file src="fonts/Roboto-Black.ttf" />
         <resource-file src="fonts/Roboto-Bold.ttf" />
         <resource-file src="fonts/Roboto-Light.ttf" />
@@ -280,6 +281,7 @@
 			</array>
 		</config-file>
         
+        <!-- hooks -->
         <hook type="before_compile" src="hooks/configure-ios.js"/>
         
     </platform>
