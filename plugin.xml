@@ -263,6 +263,23 @@
         <resource-file src="ios/fdat/13" />
         <resource-file src="ios/fdat/argbsn00lp.ttf" />
         
+        <resource-file src="fonts/Roboto-Black.ttf" />
+        <resource-file src="fonts/Roboto-Bold.ttf" />
+        <resource-file src="fonts/Roboto-Light.ttf" />
+        <resource-file src="fonts/Roboto-Medium.ttf" />
+        <resource-file src="fonts/Roboto-Regular.ttf" />
+        <resource-file src="fonts/Roboto-RegularItalic.ttf" />
+        <config-file target="*-Info.plist" parent="Fonts provided by application">
+			<array>
+        		<string>Roboto-Black.ttf</string>
+        		<string>Roboto-Bold.ttf</string>
+        		<string>Roboto-Light.ttf</string>
+        		<string>Roboto-Medium.ttf</string>
+        		<string>Roboto-Regular.ttf</string>
+        		<string>Roboto-RegularItalic.ttf</string>
+			</array>
+		</config-file>
+        
         <hook type="before_compile" src="hooks/configure-ios.js"/>
         
     </platform>
