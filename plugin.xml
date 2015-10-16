@@ -26,15 +26,17 @@
 
 		<config-file target="AndroidManifest.xml" parent="application">
             <activity android:name="it.almaviva.cordovaplugins.ReaderActivity" 
-            android:noHistory="true" 
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensor" >
+            	android:noHistory="true" 
+            	android:configChanges="orientation|keyboardHidden|screenSize"
+            	android:screenOrientation="sensor" >
             </activity>
             <meta-data android:name="DefaultFont" android:value="Roboto-Black.ttf" />
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
+        
+        <!-- Plugin source -->
 		<source-file src="android/ReaderActivity.java" target-dir="src/it/almaviva/cordovaplugins" />
 		<source-file src="android/ReaderController.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/RadaeePDF.java" target-dir="src/it/almaviva/cordovaplugins" />
@@ -42,6 +44,7 @@
         <source-file src="android/CustomFontTextView.java" target-dir="src/it/almaviva/cordovaplugins" />
         <source-file src="android/ViewLib/libs/com.radaee.view.jar" target-dir="libs" />
         
+        <!-- Radaee source - java.com.radaee.pdf -->
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Obj.java" target-dir="src/com/radaee/pdf/adv" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/adv/Ref.java" target-dir="src/com/radaee/pdf/adv" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/BMDatabase.java" target-dir="src/com/radaee/pdf" />
@@ -57,6 +60,7 @@
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/Path.java" target-dir="src/com/radaee/pdf" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/pdf/SuperDoc.java" target-dir="src/com/radaee/pdf" />
         
+        <!-- Radaee source - java.com.radaee.reader -->
         <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFBotBar.java" target-dir="src/com/radaee/reader" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFCurlViewAct.java" target-dir="src/com/radaee/reader" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFLayoutView.java" target-dir="src/com/radaee/reader" />
@@ -66,6 +70,7 @@
         <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFViewAct.java" target-dir="src/com/radaee/reader" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/reader/PDFViewController.java" target-dir="src/com/radaee/reader" />
         
+        <!-- Radaee source - java.com.radaee.util -->
         <source-file src="android/ViewLib/src/main/java/com/radaee/util/ComboList.java" target-dir="src/com/radaee/util" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/util/ComboListAdt.java" target-dir="src/com/radaee/util" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/util/OutlineList.java" target-dir="src/com/radaee/util" />
@@ -81,6 +86,7 @@
         <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFMemStream.java" target-dir="src/com/radaee/util" />
         <source-file src="android/ViewLib/src/main/java/com/radaee/util/PDFThumbView.java" target-dir="src/com/radaee/util" />
         
+        <!-- Radaee source - java.com.radaee.util -->
         <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlMesh.java" target-dir="src/main/java/fi/harism/curl" />
         <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlPage.java" target-dir="src/main/java/fi/harism/curl" />
         <source-file src="android/ViewLib/src/main/java/fi/harism/curl/CurlRenderer.java" target-dir="src/main/java/fi/harism/curl" />
@@ -97,10 +103,12 @@
         <!-- Import to include guava dependency -->
         <framework src="android/build-extras.gradle" custom="true" type="gradleReference" />
         
+        <!-- Project layout -->
         <source-file src="android/res/layout/navigation_bar.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_popup_layout.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pdf_popup_outcome_layout.xml" target-dir="res/layout" />
         
+        <!-- Radaee layout -->
         <source-file src="android/res/layout/bar_act.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_annot.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/bar_cmd.xml" target-dir="res/layout" />
@@ -119,6 +127,7 @@
         <source-file src="android/res/layout/pop_edit.xml" target-dir="res/layout" />
         <source-file src="android/res/layout/pop_view.xml" target-dir="res/layout" />
         
+        <!-- Radaee raw -->
         <source-file src="android/res/raw/arimo" target-dir="res/raw" />
         <source-file src="android/res/raw/arimob" target-dir="res/raw" />
         <source-file src="android/res/raw/arimobi" target-dir="res/raw" />
@@ -137,11 +146,13 @@
         <source-file src="android/res/raw/tinosi" target-dir="res/raw" />
         <source-file src="android/res/raw/umaps.dat" target-dir="res/raw" />
         
+        <!-- Project drawable -->
         <source-file src="android/res/drawable/download_arrow.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/bar_back_image.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/pdf_popup_background.xml" target-dir="res/drawable" />
         <source-file src="android/res/drawable/pdf_popup_inner_border.xml" target-dir="res/drawable" />
         
+        <!-- Radaee drawable -->
         <source-file src="android/res/drawable/bar_back.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ellipse.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/btn_annot_ink.png" target-dir="res/drawable" />
@@ -172,9 +183,18 @@
         <source-file src="android/res/drawable/pt_end.png" target-dir="res/drawable" />
         <source-file src="android/res/drawable/pt_start.png" target-dir="res/drawable" />
         
-        <source-file src="android/fonts/Roboto-Black.ttf" target-dir="assets/fonts" />
+        <!-- Fonts -->
+        <source-file src="fonts/Roboto-Black.ttf" target-dir="assets/fonts" />
+        <source-file src="fonts/Roboto-Bold.ttf" target-dir="assets/fonts" />
+        <source-file src="fonts/Roboto-Light.ttf" target-dir="assets/fonts" />
+        <source-file src="fonts/Roboto-Medium.ttf" target-dir="assets/fonts" />
+        <source-file src="fonts/Roboto-Regular.ttf" target-dir="assets/fonts" />
+        <source-file src="fonts/Roboto-RegularItalic.ttf" target-dir="assets/fonts" />
+        
+        <!-- Theme Style -->
         <source-file src="android/res/values/style_bar.xml" target-dir="res/values" />
         
+        <!-- Hooks -->
         <hook type="after_prepare" src="hooks/configure-android.js"/>
         
     </platform>

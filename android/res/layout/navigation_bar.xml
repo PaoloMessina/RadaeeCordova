@@ -58,7 +58,8 @@
 	         android:visibility="invisible"
 	         android:padding="0dp"
 	         style="?android:attr/buttonStyleSmall"
-	         android:gravity="center"/>
+	         android:gravity="center"
+	         android:font="Roboto-Regular.ttf"/>
      </LinearLayout>
     <LinearLayout
         android:id="@+id/navigation_bar_bottom_line"
