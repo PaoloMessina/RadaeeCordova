@@ -35,6 +35,7 @@ public class RadaeePDF extends CordovaPlugin {
     private Context c;
     private CallbackContext callbackContext;
     private JSONObject params;
+    private boolean showPdfInProgress;
 	/**
      * Constructor.
      */
@@ -67,6 +68,11 @@ public class RadaeePDF extends CordovaPlugin {
             String targetPath = params.optString("url");
             JSONObject header = params.getJSONObject("headerParams");
 
+            if(showPdfInProgress){
+                callbackContext.error("another Pdf opening in progress");
+                return false;
+            }
+            showPdfInProgress = true;
             if(targetPath != null && targetPath != ""){
                 if(URLUtil.isFileUrl(targetPath)){
                     c = this.cordova.getActivity().getApplicationContext();
@@ -74,7 +80,9 @@ public class RadaeePDF extends CordovaPlugin {
                     try {
                         InputStream inputStream = new FileInputStream(targetPath);
                         data = ByteStreams.toByteArray(inputStream);
+
                     } catch (IOException e) {
+                        showPdfInProgress = false;
                         callbackContext.error(e.getMessage());
                     }
 
@@ -82,11 +90,14 @@ public class RadaeePDF extends CordovaPlugin {
                     i.putExtra(ReaderActivity.EXTRA_PARAMS, params.toString());
                     i.putExtra(ReaderActivity.EXTRA_PARAMS_DATA, data);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    showPdfInProgress = false;
+                    callbackContext.success("Pdf local opening success");
                     c.startActivity(i);
                 } else {
                     new DownloadFile(header).execute(targetPath);
                 }
             } else {
+                showPdfInProgress = false;
                 callbackContext.error("url is null or white space, this is a mandatory parameter");
             }
 
@@ -117,6 +128,7 @@ public class RadaeePDF extends CordovaPlugin {
             FileDownloader fd = new FileDownloader(new Callback() {
                 @Override
                 public void pdfChargeDidFinishLoading(String data) {
+                    showPdfInProgress = false;
                     try {
                         callbackContext.success(new JSONObject(data));
                     } catch (JSONException e) {
@@ -126,6 +138,7 @@ public class RadaeePDF extends CordovaPlugin {
 
                 @Override
                 public void pdfChargeDidFailWithError(String data) {
+                    showPdfInProgress = false;
                     try {
                         callbackContext.error(new JSONObject(data));
                     } catch (JSONException e) {
@@ -193,7 +206,7 @@ public class RadaeePDF extends CordovaPlugin {
                 byte[] data = ByteStreams.toByteArray(inputStream);
 
                 if(data != null && data.length > 0){
-                    cbk.pdfChargeDidFinishLoading("PDF download Success");
+                    cbk.pdfChargeDidFinishLoading(String.format("{statusCode: %d, errorMessage: %s}", 0,"\"PDF download success\""));
                 } else {
                     cbk.pdfChargeDidFailWithError(String.format("{statusCode: %d, errorMessage: %s}", -1,"\"ERROR DOWNLOAD PDF, empty response\""));
                 }
@@ -214,28 +227,6 @@ public class RadaeePDF extends CordovaPlugin {
             }
         }
 
-        /*public void downloadFile(String fileUrl, JSONObject header){
-            HttpClient httpclient = new DefaultHttpClient();
-
-        }*/
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            // Check which request we're responding to
-            if (requestCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT) {
-                // Make sure the request was successful
-                if (resultCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT_OK) {
-                    callbackContext.success(data.getStringExtra(ReaderActivity.EXTRA_PARAMS_RETURN));
-                } else if (resultCode == ReaderActivity.READER_PDF_ACTIVITY_RESULT_KO) {
-                    callbackContext.error(new JSONObject(data.getStringExtra(ReaderActivity.EXTRA_PARAMS_RETURN)));
-                }
-            }
-        }
-        catch (JSONException e) {
-            callbackContext.error(e.getMessage());
-        }
     }
 
 }
