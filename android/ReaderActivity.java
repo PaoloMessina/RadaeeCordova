@@ -96,8 +96,8 @@ public class ReaderActivity extends Activity {
             }
 
             String barBottomLineColor = params.optString("barBottomLineColor");
-            if(barBottomLineColor != null && barColor.length() > 0){
-                barBottomLineColor = barColor.startsWith("#") ? barBottomLineColor : "#" + barBottomLineColor;
+            if(barBottomLineColor != null && barBottomLineColor.length() > 0){
+                barBottomLineColor = barBottomLineColor.startsWith("#") ? barBottomLineColor : "#" + barBottomLineColor;
                 if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     barBottomLine.setBackgroundDrawable(new ColorDrawable(Color.parseColor(barBottomLineColor)));
                 } else {
