@@ -13,7 +13,6 @@
         android:clickable="true" >
 
         <ImageView
-            android:id="@+id/imageView1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/btn_view_vert" />
@@ -41,7 +40,6 @@
             android:src="@drawable/btn_view_single" />
 
         <TextView
-            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
