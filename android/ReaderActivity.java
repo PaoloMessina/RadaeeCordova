@@ -315,13 +315,13 @@ public class ReaderActivity extends Activity {
         File sdDir = Environment.getExternalStorageDirectory();
         File ftmp;
         if (sdDir != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-            ftmp = new File(sdDir, "RadaeeDemo");
+            ftmp = new File(sdDir, "Radaee");
         else
-            ftmp = new File(ReaderActivity.this.getFilesDir(), "RadaeeDemo");
+            ftmp = new File(ReaderActivity.this.getFilesDir(), "Radaee");
         if (!ftmp.exists())// not exist? make it!
             ftmp.mkdir();
         String tmp_path = ftmp.getPath();
-        String fileName = (titleString != null && titleString.length() >= 0 ) ?  titleString.trim() + ".pdf" : ("pdf" + new Date().getTime()+ ".pdf" );
+        String fileName = (titleString != null && titleString.length() >= 0 ) ?  titleString.trim() + new Date().getTime() + ".pdf" : ("document_" + new Date().getTime()+ ".pdf" );
         File outFile = new File(tmp_path + "/" + fileName);
 
         try {
@@ -343,7 +343,7 @@ public class ReaderActivity extends Activity {
         popUpView = getLayoutInflater().inflate(R.layout.pdf_popup_outcome_layout, null);
         TextView bodyTextView = (TextView)popUpView.findViewById(R.id.pdf_popup_outcome_body);
         if(isSuccess){
-            bodyTextView.setText("Il pdf del referto\n è stato salvato nella cartella RadaeeDemo");
+            bodyTextView.setText("Il pdf del referto\n è stato salvato nella cartella Radaee.");
         } else {
             bodyTextView.setText("Siamo spiacenti\n si è verificato un errore durante\n il salvataggio del referto.");
         }
